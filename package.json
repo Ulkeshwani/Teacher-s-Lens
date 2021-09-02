@@ -8,17 +8,8 @@
     "dev": "nodemon src/index.ts",
     "build": "tsc -p ."
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Seung3837/Typescript-ReactJS-WebRTC-1-1-SFU.git"
-  },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Seung3837/Typescript-ReactJS-WebRTC-1-1-SFU/issues"
-  },
-  "homepage": "https://github.com/Seung3837/Typescript-ReactJS-WebRTC-1-1-SFU#readme",
   "dependencies": {
     "cors": "2.8.5",
     "express": "4.17.1",
