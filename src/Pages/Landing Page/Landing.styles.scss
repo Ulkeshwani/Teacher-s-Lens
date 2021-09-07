@@ -1,3 +1,6 @@
+$tablet-width: 768px;
+$desktop-width: 1366px;
+
 .landing_wrapper {
     width: 100%;
     height: 100vh;
@@ -6,20 +9,27 @@
 
     .landing_container{
         display: flex;
-        width: 100%;
+        width: 95%;
         height: 80%;
 
         .landing_poster{
-            width: 55%;
+            width: 85%;
             margin-left: 5rem;
-            justify-content: center;
-            align-items: center;
         }
 
         .login_container {
-            margin-left: 10rem;
+            width: auto;
+            display: flex;
+            align-items: center;
         }
     }
+}
 
-   
+@media (max-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+    .landing_poster{
+        display: none;
+    }
+    .login_container {
+        width: auto;
+    }
 }

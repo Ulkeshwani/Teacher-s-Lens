@@ -9,22 +9,31 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  width: 100%;
+  width: 95%;
   height: 80%;
 }
 
 .landing_wrapper .landing_container .landing_poster {
-  width: 55%;
+  width: 85%;
   margin-left: 5rem;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+}
+
+.landing_wrapper .landing_container .login_container {
+  width: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
 }
 
-.landing_wrapper .landing_container .login_container {
-  margin-left: 10rem;
+@media (max-width: 768px) and (max-width: 1365px) {
+  .landing_poster {
+    display: none;
+  }
+  .login_container {
+    width: auto;
+  }
 }
 /*# sourceMappingURL=Landing.styles.css.map */
