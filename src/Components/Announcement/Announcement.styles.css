@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700,600");
+._Announcement_Container {
+  margin: 20px;
+  background-color: #17252a;
+  color: #feffff;
+  min-width: 200px;
+  max-width: 500px;
+  max-height: 600px;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+._Announcement_Container ._Inner_Container {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 20px;
+}
+
+._Announcement_Container ._Inner_Container ._People_Avatar {
+  background-color: gray;
+  color: white;
+}
+
+._Announcement_Container ._Inner_Container .Host {
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+._Announcement_Container ._Inner_Container ._current_Time {
+  margin-left: auto;
+}
+
+._Announcement_Container ._announcement_Desc_container {
+  max-height: 200px;
+  overflow: auto;
+}
+
+._Announcement_Container ._announcement_Desc_container ._Desc {
+  line-height: 1.6;
+  padding: 0 50px 30px 70px;
+}
+/*# sourceMappingURL=Announcement.styles.css.map */

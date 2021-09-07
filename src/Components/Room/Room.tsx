@@ -144,7 +144,7 @@ const Room: React.FC = (props: any) => {
                     },
                 }).then(stream => {
                     localStream = stream;
-                    console.log(localStream?.getVideoTracks()[0]);
+                    // console.log(localStream?.getVideoTracks()[0]);
                     senders.current
                         .find((sender) => sender.track?.kind === "video")
                         ?.replaceTrack(localStream.getVideoTracks()[0]);

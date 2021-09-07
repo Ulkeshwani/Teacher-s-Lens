@@ -1,0 +1,13 @@
+.landing_wrapper {
+  width: 100%;
+  height: 100vh;
+  flex-direction: column;
+  background-color: #17252a;
+  color: white;
+}
+.landing_wrapper .landing_container {
+  margin-left: 5rem;
+  display: flex;
+  width: 70%;
+  height: 80%;
+}

@@ -1,0 +1,86 @@
+main {
+  margin-left: 5rem;
+  padding: 1rem;
+}
+
+li {
+  list-style: none;
+}
+
+.navbar {
+  height: 75px;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 20px;
+  background-color: #17252a;
+  padding: 0 20px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.navbar .logo-text {
+  font-size: 1.70vw;
+  margin-left: 20px;
+  font-weight: bold;
+}
+
+.navbar .logo-container {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 100%;
+  width: 70px;
+  padding: 25px;
+}
+
+.navbar .logo-container .logo {
+  height: 30px;
+  width: 50px;
+  color: white;
+}
+
+.navbar .options {
+  margin-left: auto;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  cursor: pointer;
+}
+
+.navbar .options .About_us_icon {
+  margin-left: 10px;
+}
+
+.navbar .options .option {
+  text-decoration: none;
+  margin-right: 3vw;
+  color: white;
+}
+
+.navbar .options .option:hover {
+  color: aquamarine;
+  -webkit-transition: 600ms ease;
+  transition: 600ms ease;
+}
+
+@media only screen and (max-width: 600px) {
+  .logo-text {
+    display: none;
+  }
+}
+/*# sourceMappingURL=Navigation.styles.css.map */

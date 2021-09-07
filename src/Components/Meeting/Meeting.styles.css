@@ -1,0 +1,65 @@
+._meetingInvite_Wrapper {
+  margin: 20px;
+  background-color: #17252a;
+  color: #feffff;
+  width: 20vw;
+  max-height: 600px;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+._meetingInvite_Wrapper ._meetInvite_Container {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 20px;
+}
+
+._meetingInvite_Wrapper ._meetInvite_Container ._People_Avatar {
+  background-color: gray;
+  color: white;
+}
+
+._meetingInvite_Wrapper ._meetInvite_Container .Host {
+  margin-left: 20px;
+}
+
+._meetingInvite_Wrapper ._meetInvite_Container ._current_Time {
+  margin-left: auto;
+}
+
+._meetingInvite_Wrapper ._MeetJoin_container {
+  max-height: 200px;
+  overflow: auto;
+}
+
+._meetingInvite_Wrapper ._MeetJoin_container ._Desc {
+  line-height: 1.6;
+  padding: 0 50px 30px 70px;
+}
+
+._meetingInvite_Wrapper ._Button_Container {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 20px;
+}
+
+._meetingInvite_Wrapper ._Button_Container ._Join_Meet {
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: white;
+  background-color: #3aafa9;
+  margin-left: auto;
+}
+/*# sourceMappingURL=Meeting.styles.css.map */

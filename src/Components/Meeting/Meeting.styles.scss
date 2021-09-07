@@ -1,0 +1,57 @@
+._meetingInvite_Wrapper {
+    margin: 20px;
+    background-color: rgba(23, 37, 42, 1);
+    color: rgba(254, 255, 255, 1);
+    width: 20vw;
+    max-height: 600px;
+    border-radius: 8px;
+    font-family: 'Montserrat',
+        sans-serif;
+
+    ._meetInvite_Container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 20px;
+
+        ._People_Avatar {
+            background-color: gray;
+            color: white;
+        }
+
+        .Host {
+            margin-left: 20px;
+        }
+
+        ._current_Time {
+            margin-left: auto;
+        }
+    }
+
+    ._MeetJoin_container {
+        max-height: 200px;
+        overflow: auto;
+
+        ._Desc {
+            line-height: 1.6;
+            padding: 0 50px 30px 70px;
+        }
+    }
+
+    ._Button_Container {
+        width: 100%;
+        display: flex;
+        padding: 20px;
+
+        ._Join_Meet {
+            border-radius: 8px;
+            font-family: 'Montserrat',
+                sans-serif;
+            font-weight: 600;
+            color: white;
+            background-color: rgba(58, 175, 169, 1);
+            margin-left: auto;
+        }
+    }
+}
