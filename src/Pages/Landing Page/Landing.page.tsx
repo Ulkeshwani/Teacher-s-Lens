@@ -1,4 +1,5 @@
 import LandingPoster from "Assets/Aminated posters/LandingPoster.animation";
+import Footer from "Components/Footer/Footer.component";
 import Login from "Components/Login/Login.component";
 import Navigation from "Components/Nav bar/Navigation.component";
 import React, { Component } from "react";
@@ -18,6 +19,7 @@ class Landing extends Component {
             <Login />
           </article>
         </section>
+        <Footer />
       </div>
     );
   }

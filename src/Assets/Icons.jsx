@@ -969,7 +969,7 @@ export const EmailIcon = () => {
       y="0"
       viewBox="0 0 512 512"
       xmlSpace="preserve"
-      class=""
+      className=""
     >
       <g>
         <g xmlns="http://www.w3.org/2000/svg">
@@ -983,7 +983,7 @@ export const EmailIcon = () => {
               d="m506.579 203.457-241-200c-2.777-2.305-6.178-3.457-9.579-3.457v512h241c8.284 0 15-6.716 15-15v-282c0-4.462-1.986-8.693-5.421-11.543z"
               fill="#ffb400"
               data-original="#ffb400"
-              class=""
+              className=""
             ></path>
           </g>
           <path

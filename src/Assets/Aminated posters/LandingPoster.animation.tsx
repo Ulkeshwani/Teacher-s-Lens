@@ -13,7 +13,7 @@ class LandingPoster extends Component {
       },
     };
 
-    return <Lottie options={defaultOptions} />;
+    return <Lottie options={defaultOptions} height={700} width="45vw" />;
   }
 }
 

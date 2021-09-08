@@ -10,11 +10,11 @@ $desktop-width: 1366px;
     .landing_container{
         display: flex;
         width: 95%;
-        height: 80%;
+        height: 85%;
 
         .landing_poster{
-            width: 85%;
-            margin-left: 5rem;
+            width: 100%;
+            padding-left: 5rem;
         }
 
         .login_container {
@@ -25,7 +25,23 @@ $desktop-width: 1366px;
     }
 }
 
-@media (max-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+@media (max-width: 900px) {
+    .landing_container {
+        display: flex;
+        flex-direction: row;
+
+        .landing_poster {
+            display: none;
+        }
+
+        .login_container {
+            width: auto;
+        }
+    }
+
+}
+
+@media (max-width: #{$tablet-width}) {
     .landing_poster{
         display: none;
     }

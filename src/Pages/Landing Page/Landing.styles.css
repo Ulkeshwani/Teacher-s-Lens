@@ -10,12 +10,12 @@
   display: -ms-flexbox;
   display: flex;
   width: 95%;
-  height: 80%;
+  height: 85%;
 }
 
 .landing_wrapper .landing_container .landing_poster {
-  width: 85%;
-  margin-left: 5rem;
+  width: 100%;
+  padding-left: 5rem;
 }
 
 .landing_wrapper .landing_container .login_container {
@@ -28,7 +28,25 @@
           align-items: center;
 }
 
-@media (max-width: 768px) and (max-width: 1365px) {
+@media (max-width: 900px) {
+  .landing_container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+  }
+  .landing_container .landing_poster {
+    display: none;
+  }
+  .landing_container .login_container {
+    width: auto;
+  }
+}
+
+@media (max-width: 768px) {
   .landing_poster {
     display: none;
   }

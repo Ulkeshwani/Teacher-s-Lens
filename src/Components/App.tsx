@@ -6,7 +6,7 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/Landing" component={Landing} />
+        <Route exact path="/" component={Landing} />
       </Switch>
     </BrowserRouter>
   );
