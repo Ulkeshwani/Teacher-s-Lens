@@ -23,11 +23,11 @@ li {
   margin-bottom: 20px;
   background-color: #17252a;
   padding: 0 20px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .navbar .logo-text {
-  font-size: 1.70vw;
+  font-size: 1.7vw;
   margin-left: 20px;
   font-weight: bold;
 }
@@ -70,7 +70,7 @@ li {
   text-decoration: none;
   margin-right: 3vw;
   color: white;
-  font-size: .8rem;
+  font-size: 0.8rem;
 }
 
 .navbar .options .option:hover {
@@ -81,6 +81,9 @@ li {
 
 @media only screen and (max-width: 600px) {
   .logo-text {
+    display: none;
+  }
+  .option {
     display: none;
   }
 }

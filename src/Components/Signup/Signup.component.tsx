@@ -4,7 +4,8 @@ import { Grid, InputBase } from "@material-ui/core";
 import { WeIcon, EmailIcon } from "../../Assets/Icons";
 import CustomButton from "Components/CustomButton/CustomButton.component";
 
-import "./Login.styles.css";
+import "./Signup.styles.css";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -15,12 +16,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login: React.FC = () => {
+const SignUp: React.FC = () => {
   const classes = useStyles();
   return (
-    <div className="login_wrapper">
-      <span className="heading">LOGIN HERE</span>
-      <form className="login_container">
+    <div className="signup_wrapper">
+      <span className="heading">Join Us</span>
+      <form className="signup_container">
         <Grid container spacing={1} xl={12} xs={12} alignItems="flex-end">
           <Grid item>
             <EmailIcon />
@@ -34,9 +35,9 @@ const Login: React.FC = () => {
           <Grid item xl={10} xs={11}>
             <InputBase placeholder="Password" className={classes.textField} />
           </Grid>
-          <Grid item xl={10} xs={10}>
+          <Grid item xl={10} xs={11}>
             <div className="_Button_Container">
-              <CustomButton className="_Login_Button">LOGIN</CustomButton>
+              <CustomButton className="_signup_Button">Join US</CustomButton>
             </div>
           </Grid>
         </Grid>
@@ -45,4 +46,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default SignUp;

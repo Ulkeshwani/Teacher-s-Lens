@@ -1,20 +1,21 @@
-.login_wrapper {
+.signup_wrapper {
+  margin-left: 5rem;
   color: white;
   font-family: "Montserrat", sans-serif;
 }
 
-.login_wrapper .heading {
+.signup_wrapper .heading {
   font-size: 1.5rem;
   font-weight: bold;
 }
 
-.login_wrapper .login_container {
+.signup_wrapper .signup_container {
   margin-top: 2rem;
   width: 100%;
   height: 100%;
 }
 
-.login_wrapper .login_container ._Button_Container {
+.signup_wrapper .signup_container ._Button_Container {
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -22,7 +23,7 @@
   padding: 20px;
 }
 
-.login_wrapper .login_container ._Button_Container ._Login_Button {
+.signup_wrapper .signup_container ._Button_Container ._signup_Button {
   border-radius: 8px;
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
@@ -31,8 +32,14 @@
   margin-left: auto;
 }
 
-.login_wrapper .login_container ._Button_Container ._Login_Button:hover {
+.signup_wrapper .signup_container ._Button_Container ._signup_Button:hover {
   color: black;
   background-color: white;
 }
-/*# sourceMappingURL=Login.styles.css.map */
+
+@media (max-width: 768px) and (max-width: 1023px) {
+  .login_wrapper {
+    margin-left: 5rem;
+  }
+}
+/*# sourceMappingURL=Signup.styles.css.map */

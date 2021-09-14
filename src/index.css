@@ -19,11 +19,7 @@ code {
 }
 
 *::-webkit-scrollbar {
-  width: 0.25rem;
-}
-
-*::-webkit-scrollbar {
-  width: 0.25rem;
+  width: 0.5rem;
 }
 
 *::-webkit-scrollbar-track {
@@ -32,4 +28,9 @@ code {
 
 *::-webkit-scrollbar-thumb {
   background: #d1d1d1;
+  border-radius: 0.5rem;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #3aafa9;
 }

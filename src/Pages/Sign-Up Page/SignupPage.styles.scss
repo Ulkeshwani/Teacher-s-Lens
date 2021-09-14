@@ -1,22 +1,22 @@
-$tablet-width: 600px;
-$desktop-width: 1366px;
-
-.landing_wrapper {
+._signup_page_wrapper {
   width: 100%;
   height: 100vh;
   background-color: rgba(23, 37, 42, 1);
   color: white;
 
-  .landing_container {
+  ._signup_page_container {
     display: flex;
     width: 100%;
     height: 85%;
 
-    .landing_poster {
-      width: 100%;
+    ._signup_poster {
+      width: 80%;
+      display: inline-flex;
+      justify-items: center;
+      align-items: center;
     }
 
-    .login_container {
+    ._signup_container {
       width: auto;
       display: flex;
       align-items: center;
@@ -25,23 +25,22 @@ $desktop-width: 1366px;
 }
 
 @media (max-width: 900px) {
-  .landing_container {
+  ._signup_page_container {
     display: grid;
     place-items: center;
     flex-direction: column-reverse;
-
-    .login_container {
+    ._signup_container {
       width: 100%;
       text-align: justify;
     }
   }
 }
 
-@media (max-width: #{$tablet-width}) {
-  .landing_poster {
+@media (max-width: 600px) {
+  ._signup_poster {
     display: grid;
   }
-  .login_container {
+  ._signup_container {
     margin: 1vw;
     width: 100vw;
   }

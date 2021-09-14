@@ -1,67 +1,69 @@
 main {
-     margin-left: 5rem;
-    padding: 1rem;
+  margin-left: 5rem;
+  padding: 1rem;
 }
-li{
-    list-style: none;
+li {
+  list-style: none;
 }
-.navbar{
-      height: 75px;
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      margin-bottom: 20px;
-      background-color: rgba(23, 37, 42, 1);
-      padding: 0 20px;
-        font-family: 'Montserrat',
-         sans-serif;
-    
-    .logo-text{
-        font-size: 1.70vw;
-        margin-left: 20px;
-        font-weight: bold;
+.navbar {
+  height: 75px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: rgba(23, 37, 42, 1);
+  padding: 0 20px;
+  font-family: "Montserrat", sans-serif;
+
+  .logo-text {
+    font-size: 1.7vw;
+    margin-left: 20px;
+    font-weight: bold;
+  }
+
+  .logo-container {
+    align-items: center;
+    height: 100%;
+    width: 70px;
+    padding: 25px;
+
+    .logo {
+      height: 30px;
+      width: 50px;
+      color: white;
+    }
+  }
+  .options {
+    margin-left: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    cursor: pointer;
+
+    .About_us_icon {
+      margin-left: 10px;
     }
 
-    .logo-container {
-        align-items: center;
-        height: 100%;
-        width: 70px;
-        padding: 25px;
-
-        .logo{
-            height: 30px;
-            width: 50px;
-            color: white;
-        }
+    .option {
+      text-decoration: none;
+      margin-right: 3vw;
+      color: white;
+      font-size: 0.8rem;
     }
-    .options {
-        margin-left: auto;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        cursor: pointer;
-        
-        .About_us_icon {
-            margin-left: 10px;
-        }
-
-        .option {
-            text-decoration: none;
-            margin-right: 3vw;
-            color: white;
-            font-size: .8rem;
-         }
-         .option:hover{
-             color: aquamarine;
-             transition: 600ms ease;
-         }
+    .option:hover {
+      color: aquamarine;
+      transition: 600ms ease;
     }
+  }
 }
 
 @media only screen and (max-width: 600px) {
-    .logo-text{
-        display: none;
-    }
+  .logo-text {
+    display: none;
+  }
+  .option {
+    display: none;
+  }
 }

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Lottie from "react-lottie";
-import animationData from "../Data/lf30_editor_vqkrvqpo.json";
+import animationData from "../Data/Join Us.json";
 
-class LandingPoster extends Component {
+class SignupPoster extends Component {
   render() {
     const defaultOptions = {
       loop: true,
@@ -13,8 +13,14 @@ class LandingPoster extends Component {
       },
     };
 
-    return <Lottie options={defaultOptions} width="50vw" />;
+    return (
+      <Lottie
+        options={defaultOptions}
+        width="50vw"
+        style={{ display: "inline-block" }}
+      />
+    );
   }
 }
 
-export default LandingPoster;
+export default SignupPoster;
