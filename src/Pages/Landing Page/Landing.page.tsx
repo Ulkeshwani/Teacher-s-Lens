@@ -3,9 +3,7 @@ import Footer from "Components/Footer/Footer.component";
 import Login from "Components/Login/Login.component";
 import Navigation from "Components/Nav bar/Navigation.component";
 import React, { Component } from "react";
-
 import "./Landing.styles.css";
-
 class Landing extends Component {
   render() {
     return (

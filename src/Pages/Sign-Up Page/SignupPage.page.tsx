@@ -6,7 +6,7 @@ import Navigation from "Components/Nav bar/Navigation.component";
 
 import "./SignupPage.styles.css";
 
-class SignupPage extends Component {
+export class SignupPage extends Component {
   render() {
     return (
       <div className="_signup_page_wrapper">
@@ -24,5 +24,3 @@ class SignupPage extends Component {
     );
   }
 }
-
-export default SignupPage;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar } from "@material-ui/core";
+import { Avatar } from "@mui/material";
 import CustomButton from "Components/CustomButton/CustomButton.component";
 
 import "./Meeting.styles.css";

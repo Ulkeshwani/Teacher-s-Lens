@@ -6,8 +6,6 @@
   padding-top: 30px;
   height: 75px;
   background-color: #17252a;
-  -webkit-clip-path: ellipse(93% 100% at 31.08% 100%);
-          clip-path: ellipse(93% 100% at 31.08% 100%);
   font-family: "Montserrat", sans-serif;
   font-weight: bold;
 }

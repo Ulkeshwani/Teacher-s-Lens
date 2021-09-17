@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { ReactComponent as Logo } from "../../Assets/Logo/vr-cardboard-solid.svg";
-import {} from "";
 import { Link } from "react-router-dom";
+import { ThreeLineHorizontal } from "akar-icons";
 
 import "./Navigation.styles.css";
 
 const Navigation: React.FC = (Props) => {
   const CurrentPath = useHistory();
+  const [showNav, setShowNav] = useState(true);
   return (
     <nav className="navbar">
       <Link className="logo-container" to="/Landing">
@@ -15,21 +16,35 @@ const Navigation: React.FC = (Props) => {
       </Link>
       <span className="logo-text">Teacher's Lens</span>
       <div className="options">
-        <Link
-          className="option"
-          to={CurrentPath.location.pathname === "/Join-Us" ? "/" : "/Join-Us"}
-        >
-          {CurrentPath.location.pathname === "/Join-Us" ? "LOGIN" : "SIGNUP"}
-        </Link>
-        <Link className="option" to="#">
-          CONTACT
-        </Link>
-        <Link className="option" to="#">
-          ABOUT
-        </Link>
-        <Link className="option" to="#">
-          TEACHER'S BLOG
-        </Link>
+        {showNav ? (
+          <React.Fragment>
+            <Link
+              className="option"
+              to={
+                CurrentPath.location.pathname === "/Join-Us" ? "/" : "/Join-Us"
+              }
+            >
+              {CurrentPath.location.pathname === "/Join-Us"
+                ? "LOGIN"
+                : "SIGNUP"}
+            </Link>
+            <Link className="option" to="#">
+              CONTACT
+            </Link>
+            <Link className="option" to="#">
+              ABOUT
+            </Link>
+            <Link className="option" to="#">
+              TEACHER'S BLOG
+            </Link>
+          </React.Fragment>
+        ) : null}
+
+        <ThreeLineHorizontal
+          size={24}
+          onClick={() => setShowNav(!showNav)}
+          style={{ transition: "all ease 600ms" }}
+        />
       </div>
     </nav>
   );

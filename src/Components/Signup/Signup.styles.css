@@ -1,4 +1,5 @@
 .signup_wrapper {
+  max-width: 500px;
   margin-left: 5rem;
   color: white;
   font-family: "Montserrat", sans-serif;
@@ -16,11 +17,10 @@
 }
 
 .signup_wrapper .signup_container ._Button_Container {
-  width: 100%;
+  width: 98%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  padding: 20px;
 }
 
 .signup_wrapper .signup_container ._Button_Container ._signup_Button {
