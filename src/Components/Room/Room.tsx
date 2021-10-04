@@ -2,8 +2,14 @@ import React, { useState, useRef, useEffect } from "react";
 import io from "socket.io-client";
 import Video from "Components/Video";
 
-const Room: React.FC = (props: any) => {
-  const localUuid: string = props.match.params.roomID;
+import "./Room.styles.css";
+
+type CallProperties = {
+  roomID?: string;
+};
+
+const Room = ({ roomID }: CallProperties) => {
+  const localUuid: string = roomID as string;
   const [socket, setSocket] = useState<SocketIOClient.Socket>();
   const [users, setUsers] = useState<Array<IWebRTCUser>>([]);
   const senders = useRef<Array<RTCRtpSender>>([]);
@@ -123,12 +129,31 @@ const Room: React.FC = (props: any) => {
           id: newSocket.id,
           roomID: localUuid,
         });
+        updateLayout();
       })
       .catch((error) => {
         console.log(`getUserMedia error: ${error}`);
       });
   }, []);
+  const updateLayout = () => {
+    var rowHeight = "70vh";
+    var colWidth = "80vw";
 
+    var numVideos = Object.keys(users).length + 1; // add one to include local video
+
+    if (numVideos > 1 && numVideos <= 4) {
+      // 2x2 grid
+      rowHeight = "48vh";
+      colWidth = "48vw";
+    } else if (numVideos > 4) {
+      // 3x3 grid
+      rowHeight = "32vh";
+      colWidth = "32vw";
+    }
+
+    document.documentElement.style.setProperty(`--rowHeight`, rowHeight);
+    document.documentElement.style.setProperty(`--colWidth`, colWidth);
+  };
   const _handleShareScreen = async () => {
     //@ts-ignore
     await navigator.mediaDevices.getDisplayMedia().then((stream) => {
@@ -285,24 +310,14 @@ const Room: React.FC = (props: any) => {
   };
 
   return (
-    <div>
-      <video
-        style={{
-          width: 480,
-          height: 480,
-          margin: 5,
-          backgroundColor: "black",
-        }}
-        muted
-        ref={localVideoRef}
-        autoPlay
-        controls
-      ></video>
+    <>
+      <video muted ref={localVideoRef} autoPlay controls></video>
+
       {users.map((user, index) => {
         return <Video key={index} stream={user.stream} />;
       })}
-      <button onClick={_handleShareScreen}>Share Screen</button>
-    </div>
+      {/* <button onClick={_handleShareScreen}>Share Screen</button> */}
+    </>
   );
 };
 

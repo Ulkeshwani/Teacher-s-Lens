@@ -13,7 +13,10 @@ $desktop-width: 1366px;
     height: 85%;
 
     .landing_poster {
-      width: 100%;
+      width: 80%;
+      display: inline-flex;
+      justify-items: center;
+      align-items: center;
     }
 
     .login_container {
@@ -37,7 +40,7 @@ $desktop-width: 1366px;
   }
 }
 
-@media (max-width: #{$tablet-width}) {
+@media (max-width: 600px) {
   .landing_poster {
     display: grid;
   }

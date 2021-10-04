@@ -13,7 +13,7 @@ class SignupPoster extends Component {
       },
     };
 
-    return <Lottie options={defaultOptions} width={800} />;
+    return <Lottie options={defaultOptions} width="40vw" />;
   }
 }
 

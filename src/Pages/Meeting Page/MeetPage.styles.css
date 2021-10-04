@@ -1,0 +1,15 @@
+.Meet_Wrapper {
+  max-width: 100%;
+  height: 100vh;
+  padding: 2em;
+  background-color: #17252a;
+}
+
+.Meet_Wrapper .Meet_callContainer {
+  padding: 2em;
+  max-width: 100vw;
+  min-height: 90%;
+  background-color: #202124;
+  border-radius: 10px;
+}
+/*# sourceMappingURL=MeetPage.styles.css.map */

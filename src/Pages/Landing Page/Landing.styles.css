@@ -14,7 +14,14 @@
 }
 
 .landing_wrapper .landing_container .landing_poster {
-  width: 100%;
+  width: 80%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  justify-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .landing_wrapper .landing_container .login_container {

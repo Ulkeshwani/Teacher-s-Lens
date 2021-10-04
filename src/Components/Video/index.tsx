@@ -1,42 +1,21 @@
-import React, { useEffect, useRef, useState } from "react"
-import Styled from 'styled-components';
-
-const Container = Styled.div`
-    position: relative;
-    display: inline-block;
-    width: 240px;
-    height: 240px;
-`;
-
-const VideoContainer = Styled.video`
-    width: 480px;
-    height: 480px;
-    background-color: black;
-`;
+import React, { useEffect, useRef, useState } from "react";
+import Styled from "styled-components";
 
 interface Props {
-    stream: MediaStream;
-    muted?: boolean;
+  stream: MediaStream;
+  muted?: boolean;
 }
 
 const Video = ({ stream, muted }: Props) => {
-    const ref = useRef<HTMLVideoElement>(null);
-    const [isMuted, setIsMuted] = useState<boolean>(true);
+  const ref = useRef<HTMLVideoElement>(null);
+  const [isMuted, setIsMuted] = useState<boolean>(true);
 
-    useEffect(() => {
-        if (ref.current) ref.current.srcObject = stream;
-        if (muted) setIsMuted(muted);
-    })
+  useEffect(() => {
+    if (ref.current) ref.current.srcObject = stream;
+    if (muted) setIsMuted(muted);
+  });
 
-    return (
-        <Container>
-            <VideoContainer
-                ref={ref}
-                muted={isMuted}
-                autoPlay
-            ></VideoContainer>
-        </Container>
-    );
-}
+  return <video ref={ref} muted={isMuted} autoPlay></video>;
+};
 
 export default Video;
