@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Styled from "styled-components";
+import "./index.css";
 
 interface Props {
   stream: MediaStream;
@@ -15,7 +15,14 @@ const Video = ({ stream, muted }: Props) => {
     if (muted) setIsMuted(muted);
   });
 
-  return <video ref={ref} muted={isMuted} autoPlay></video>;
+  return (
+    <div className="outerContainer">
+      <div className="innerContainer">
+        <div className="peerVideoOverlay">Attendee Name</div>
+        <video ref={ref} muted={isMuted} autoPlay></video>
+      </div>
+    </div>
+  );
 };
 
 export default Video;

@@ -1,0 +1,33 @@
+.outerContainer {
+    /* border: 1px dotted black;
+  /* width: 100%; */
+    /* height: 100%;
+  text-align: center; */
+}
+
+.innerContainer {
+    display: inline-block;
+    position: relative;
+}
+
+.peerVideoOverlay {
+    position: absolute;
+    margin-top: 10px;
+    padding: 0.5em 0.5em 0.5em 2em;
+    background: #17252A;
+    color: #fff;
+    font-size: 1vw;
+    line-height: 1;
+}
+
+.peerVideoOverlay::after {
+    content: "";
+    height: 0;
+    width: 0;
+    position: absolute;
+    top: 0;
+    right: -2em;
+    border: 1em solid #17252A;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+}

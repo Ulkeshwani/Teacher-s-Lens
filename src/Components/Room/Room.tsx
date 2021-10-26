@@ -113,8 +113,9 @@ const Room = ({ roomID }: CallProperties) => {
       .getUserMedia({
         audio: false,
         video: {
-          width: 480,
-          height: 480,
+          width: { max: 420 },
+          height: { max: 240 },
+          frameRate: { max: 60 },
         },
       })
       .then((stream) => {
@@ -129,31 +130,11 @@ const Room = ({ roomID }: CallProperties) => {
           id: newSocket.id,
           roomID: localUuid,
         });
-        updateLayout();
       })
       .catch((error) => {
         console.log(`getUserMedia error: ${error}`);
       });
   }, []);
-  const updateLayout = () => {
-    var rowHeight = "70vh";
-    var colWidth = "80vw";
-
-    var numVideos = Object.keys(users).length + 1; // add one to include local video
-
-    if (numVideos > 1 && numVideos <= 4) {
-      // 2x2 grid
-      rowHeight = "48vh";
-      colWidth = "48vw";
-    } else if (numVideos > 4) {
-      // 3x3 grid
-      rowHeight = "32vh";
-      colWidth = "32vw";
-    }
-
-    document.documentElement.style.setProperty(`--rowHeight`, rowHeight);
-    document.documentElement.style.setProperty(`--colWidth`, colWidth);
-  };
   const _handleShareScreen = async () => {
     //@ts-ignore
     await navigator.mediaDevices.getDisplayMedia().then((stream) => {
@@ -166,13 +147,13 @@ const Room = ({ roomID }: CallProperties) => {
           .getUserMedia({
             audio: false,
             video: {
-              width: 480,
-              height: 480,
+              width: { max: 260 },
+              height: { max: 200 },
+              frameRate: { max: 60 },
             },
           })
           .then((stream) => {
             localStream = stream;
-            // console.log(localStream?.getVideoTracks()[0]);
             senders.current
               .find((sender) => sender.track?.kind === "video")
               ?.replaceTrack(localStream.getVideoTracks()[0]);
@@ -310,14 +291,22 @@ const Room = ({ roomID }: CallProperties) => {
   };
 
   return (
-    <>
-      <video muted ref={localVideoRef} autoPlay controls></video>
+    <section className="Video_wrapper">
+      {console.log(users.length)}
+      <div className="Video_Host_Container">
+        <div className="video-overlay "> The Attendee Name </div>
+        <video muted ref={localVideoRef} autoPlay></video>
+      </div>
+      {users.length > 0 ? (
+        <div className="Video_Attendee_container">
+          {users.map((user, index) => {
+            return <Video key={index} stream={user.stream} muted={true} />;
+          })}
+        </div>
+      ) : null}
 
-      {users.map((user, index) => {
-        return <Video key={index} stream={user.stream} />;
-      })}
       {/* <button onClick={_handleShareScreen}>Share Screen</button> */}
-    </>
+    </section>
   );
 };
 
