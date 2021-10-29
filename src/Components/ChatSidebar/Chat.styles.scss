@@ -1,0 +1,40 @@
+.inCallMessage_Wrapper {
+    padding: 25px 16px;
+    user-select: none;
+    width: 100%;
+
+    .Chat_header {
+        font-family: 'Montserrat',
+            sans-serif;
+        font-size: 18px;
+    }
+
+    .inCallMessage_alert {
+        margin: 20px;
+        padding: 10px 25px 10px 25px;
+        border-radius: 5px;
+        background-color: #f1f3f4;
+        text-align: center;
+    }
+}
+
+.Bottom_Navigation_Wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 5px;
+
+    .Bottom_Navigation_Container {
+        text-align: center;
+        padding: 5px 10px 5px 10px;
+        background-color: #17252A;
+        border-radius: 5px;
+    }
+
+    .Daytime {
+        font-size: large;
+        font-weight: 600;
+        color: white;
+    }
+}

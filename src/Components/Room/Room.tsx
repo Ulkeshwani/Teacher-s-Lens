@@ -29,7 +29,7 @@ const Room = ({ roomID }: CallProperties) => {
   };
 
   useEffect(() => {
-    let newSocket = io.connect("http://localhost:8080");
+    let newSocket = io.connect("wss://localhost:8080");
 
     newSocket.on("userEnter", (data: { id: string }) => {
       createReceivePC(data.id, newSocket);
@@ -113,9 +113,11 @@ const Room = ({ roomID }: CallProperties) => {
       .getUserMedia({
         audio: false,
         video: {
-          width: { max: 420 },
-          height: { max: 240 },
-          frameRate: { max: 60 },
+          // width: { max: 420 },
+          // height: { max: 240 },
+          width: { min: 640, ideal: 1280, max: 1920 },
+          height: { min: 480, ideal: 720, max: 1080 },
+          frameRate: { max: 30 },
         },
       })
       .then((stream) => {
@@ -147,9 +149,9 @@ const Room = ({ roomID }: CallProperties) => {
           .getUserMedia({
             audio: false,
             video: {
-              width: { max: 260 },
-              height: { max: 200 },
-              frameRate: { max: 60 },
+              width: { min: 640, ideal: 1280, max: 1920 },
+              height: { min: 480, ideal: 720, max: 1080 },
+              frameRate: { max: 30 },
             },
           })
           .then((stream) => {
@@ -164,6 +166,7 @@ const Room = ({ roomID }: CallProperties) => {
       };
     });
   };
+
   const createReceivePC = (id: string, newSocket: SocketIOClient.Socket) => {
     try {
       console.log(`socketID(${id}) user entered`);
@@ -174,6 +177,7 @@ const Room = ({ roomID }: CallProperties) => {
     }
   };
 
+  //Create Offer
   const createSenderOffer = async (newSocket: SocketIOClient.Socket) => {
     try {
       let sdp = await sendPC.createOffer({
@@ -212,6 +216,7 @@ const Room = ({ roomID }: CallProperties) => {
         senderSocketID,
         roomID: localUuid,
       });
+      console.log(senderSocketID);
     } catch (error) {
       console.log(error);
     }
@@ -294,16 +299,14 @@ const Room = ({ roomID }: CallProperties) => {
     <section className="Video_wrapper">
       {console.log(users.length)}
       <div className="Video_Host_Container">
-        <div className="video-overlay "> The Attendee Name </div>
+        {/* <div className="video-overlay "> The Attendee Name </div> */}
         <video muted ref={localVideoRef} autoPlay></video>
+        {users.length > 0
+          ? users.map((user, index) => {
+              return <Video key={index} stream={user.stream} muted={true} />;
+            })
+          : null}
       </div>
-      {users.length > 0 ? (
-        <div className="Video_Attendee_container">
-          {users.map((user, index) => {
-            return <Video key={index} stream={user.stream} muted={true} />;
-          })}
-        </div>
-      ) : null}
 
       {/* <button onClick={_handleShareScreen}>Share Screen</button> */}
     </section>

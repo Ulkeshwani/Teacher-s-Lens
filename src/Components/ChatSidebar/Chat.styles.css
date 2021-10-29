@@ -1,0 +1,49 @@
+.inCallMessage_Wrapper {
+  padding: 25px 16px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  width: 100%;
+}
+
+.inCallMessage_Wrapper .Chat_header {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+}
+
+.inCallMessage_Wrapper .inCallMessage_alert {
+  margin: 20px;
+  padding: 10px 25px 10px 25px;
+  border-radius: 5px;
+  background-color: #f1f3f4;
+  text-align: center;
+}
+
+.Bottom_Navigation_Wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  margin: 5px;
+}
+
+.Bottom_Navigation_Wrapper .Bottom_Navigation_Container {
+  text-align: center;
+  padding: 5px 10px 5px 10px;
+  background-color: #17252A;
+  border-radius: 5px;
+}
+
+.Bottom_Navigation_Wrapper .Daytime {
+  font-size: large;
+  font-weight: 600;
+  color: white;
+}
+/*# sourceMappingURL=Chat.styles.css.map */

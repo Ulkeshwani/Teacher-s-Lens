@@ -4,7 +4,7 @@ import { v1 as uuidv1 } from "uuid";
 const CreateRoom = (props: any) => {
   function _handleUuid() {
     const id: any = uuidv1();
-    props.history.replace(`/Meet/CallId=${id}`);
+    props.history.replace(`/Meet/${id}`);
   }
   return (
     <button type="button" onClick={_handleUuid}>

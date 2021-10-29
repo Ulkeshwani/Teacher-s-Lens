@@ -3,4 +3,5 @@ interface ButtonProps {
   children?: React.ReactNode;
   props?: any;
   onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  title?: string;
 }

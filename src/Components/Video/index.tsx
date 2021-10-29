@@ -16,12 +16,12 @@ const Video = ({ stream, muted }: Props) => {
   });
 
   return (
-    <div className="outerContainer">
-      <div className="innerContainer">
-        <div className="peerVideoOverlay">Attendee Name</div>
-        <video ref={ref} muted={isMuted} autoPlay></video>
-      </div>
-    </div>
+    // <div className="outerContainer">
+    //   <div className="innerContainer">
+    //     <div className="peerVideoOverlay">Attendee Name</div>
+    <video ref={ref} muted={isMuted} autoPlay></video>
+    //   </div>
+    // </div>
   );
 };
 

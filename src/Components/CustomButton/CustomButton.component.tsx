@@ -5,7 +5,7 @@ import "./CustomButton.styles.css";
 
 const CustomButton: React.FC<ButtonProps> = (props: ButtonProps) => {
   return (
-    <Button onClick={props.onClick} {...props}>
+    <Button onClick={props.onClick} {...props} title={props.title}>
       {props.children}
     </Button>
   );

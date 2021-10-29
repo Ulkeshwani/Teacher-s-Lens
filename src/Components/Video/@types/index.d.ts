@@ -1,4 +1,4 @@
 interface IWebRTCUser {
-  id: string;
-  stream: MediaStream;
+  id: string; //Socket ID
+  stream: MediaStream; //HTMLVideoElement
 }

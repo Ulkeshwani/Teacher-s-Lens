@@ -1,4 +1,5 @@
 import * as React from "react";
+import { ChatNavigation } from "Components/ChatSidebar/Chat.component";
 import Room from "Components/Room/Room";
 
 import "./MeetPage.styles.css";
@@ -18,7 +19,7 @@ class MeetPage extends React.Component<UserCallProps> {
           <Room roomID={this.state.roomID} />
         </div>
         <div className="Meet_chatContainer">
-          <label>This is Chat </label>
+          <ChatNavigation />
         </div>
       </section>
     );
