@@ -8,7 +8,7 @@ interface Props {
 
 const Video = ({ stream, muted }: Props) => {
   const ref = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState<boolean>(true);
+  const [isMuted, setIsMuted] = useState<boolean>(false);
 
   useEffect(() => {
     if (ref.current) ref.current.srcObject = stream;
@@ -19,7 +19,7 @@ const Video = ({ stream, muted }: Props) => {
     // <div className="outerContainer">
     //   <div className="innerContainer">
     //     <div className="peerVideoOverlay">Attendee Name</div>
-    <video ref={ref} muted={isMuted} autoPlay></video>
+    <video ref={ref} muted={false} autoPlay controls></video>
     //   </div>
     // </div>
   );

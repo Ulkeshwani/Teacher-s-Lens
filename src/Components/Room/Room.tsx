@@ -3,6 +3,7 @@ import io from "socket.io-client";
 import Video from "Components/Video";
 
 import "./Room.styles.css";
+import { ChatNavigation } from "Components/ChatSidebar/Chat.component";
 
 type CallProperties = {
   roomID?: string;
@@ -13,6 +14,21 @@ const Room = ({ roomID }: CallProperties) => {
   const [socket, setSocket] = useState<SocketIOClient.Socket>();
   const [users, setUsers] = useState<Array<IWebRTCUser>>([]);
   const senders = useRef<Array<RTCRtpSender>>([]);
+  const [Hide, setHide] = useState(false);
+  const [mic, setMic] = useState(false);
+  const [isVideoOn, setIsVideoOn] = useState(true);
+
+  const handleVideo = () => {
+    setIsVideoOn(!isVideoOn);
+  };
+
+  const handleMic = () => {
+    setIsVideoOn(!mic);
+  };
+
+  const handleClose = () => {
+    setHide(!Hide);
+  };
 
   let localVideoRef = useRef<HTMLVideoElement>(null);
 
@@ -29,7 +45,7 @@ const Room = ({ roomID }: CallProperties) => {
   };
 
   useEffect(() => {
-    let newSocket = io.connect("wss://localhost:8080");
+    let newSocket = io.connect("ws://localhost:8080");
 
     newSocket.on("userEnter", (data: { id: string }) => {
       createReceivePC(data.id, newSocket);
@@ -111,14 +127,14 @@ const Room = ({ roomID }: CallProperties) => {
 
     navigator.mediaDevices
       .getUserMedia({
-        audio: false,
-        video: {
-          // width: { max: 420 },
-          // height: { max: 240 },
-          width: { min: 640, ideal: 1280, max: 1920 },
-          height: { min: 480, ideal: 720, max: 1080 },
-          frameRate: { max: 30 },
-        },
+        audio: mic,
+        video: isVideoOn
+          ? {
+              width: { min: 640, ideal: 1280, max: 1920 },
+              height: { min: 480, ideal: 720, max: 1080 },
+              frameRate: { max: 59 },
+            }
+          : false,
       })
       .then((stream) => {
         if (localVideoRef.current) localVideoRef.current.srcObject = stream;
@@ -137,35 +153,6 @@ const Room = ({ roomID }: CallProperties) => {
         console.log(`getUserMedia error: ${error}`);
       });
   }, []);
-  const _handleShareScreen = async () => {
-    //@ts-ignore
-    await navigator.mediaDevices.getDisplayMedia().then((stream) => {
-      const screenTrack = stream.getTracks()[0];
-      senders.current
-        .find((sender) => sender.track?.kind === "video")
-        ?.replaceTrack(screenTrack);
-      screenTrack.onended = async () => {
-        navigator.mediaDevices
-          .getUserMedia({
-            audio: false,
-            video: {
-              width: { min: 640, ideal: 1280, max: 1920 },
-              height: { min: 480, ideal: 720, max: 1080 },
-              frameRate: { max: 30 },
-            },
-          })
-          .then((stream) => {
-            localStream = stream;
-            senders.current
-              .find((sender) => sender.track?.kind === "video")
-              ?.replaceTrack(localStream.getVideoTracks()[0]);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      };
-    });
-  };
 
   const createReceivePC = (id: string, newSocket: SocketIOClient.Socket) => {
     try {
@@ -296,20 +283,29 @@ const Room = ({ roomID }: CallProperties) => {
   };
 
   return (
-    <section className="Video_wrapper">
-      {console.log(users.length)}
-      <div className="Video_Host_Container">
-        {/* <div className="video-overlay "> The Attendee Name </div> */}
-        <video muted ref={localVideoRef} autoPlay></video>
-        {users.length > 0
-          ? users.map((user, index) => {
-              return <Video key={index} stream={user.stream} muted={true} />;
-            })
-          : null}
-      </div>
-
-      {/* <button onClick={_handleShareScreen}>Share Screen</button> */}
-    </section>
+    <React.Fragment>
+      <section className="Video_wrapper">
+        {console.log(users.length)}
+        <div className="Video_Host_Container">
+          {/* <div className="video-overlay "> The Attendee Name </div> */}
+          <video muted={mic} ref={localVideoRef} autoPlay></video>
+          {users.length > 0
+            ? users.map((user, index) => {
+                return <Video key={index} stream={user.stream} muted={mic} />;
+              })
+            : null}
+        </div>
+      </section>
+      <ChatNavigation
+        senders={senders}
+        setHide={handleClose}
+        Hide={Hide}
+        micMuted={mic}
+        setMicMuted={handleMic}
+        checkVideo={isVideoOn}
+        setCheckVideo={handleVideo}
+      />
+    </React.Fragment>
   );
 };
 

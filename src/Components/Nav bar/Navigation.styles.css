@@ -18,13 +18,12 @@ li {
   margin-bottom: 20px;
   background-color: #17252a;
   padding: 0 20px;
-  font-family: "Montserrat", sans-serif;
 }
 
 .navbar .logo-text {
   font-size: 1.7vw;
   margin-left: 20px;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .navbar .logo-container {
@@ -68,6 +67,7 @@ li {
   font-size: 0.8rem;
   -webkit-transition: all ease-in-out 600ms;
   transition: all ease-in-out 600ms;
+  font-weight: 600;
 }
 
 .navbar .options .option:hover {

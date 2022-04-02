@@ -2,7 +2,6 @@
   max-width: 500px;
   margin-left: 5rem;
   color: white;
-  font-family: "Montserrat", sans-serif;
 }
 
 .signup_wrapper .heading {
@@ -25,7 +24,6 @@
 
 .signup_wrapper .signup_container ._Button_Container ._signup_Button {
   border-radius: 8px;
-  font-family: "Montserrat", sans-serif;
   font-weight: 600;
   color: white;
   background-color: #3aafa9;

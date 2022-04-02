@@ -10,12 +10,11 @@ li {
   margin-bottom: 20px;
   background-color: rgba(23, 37, 42, 1);
   padding: 0 20px;
-  font-family: "Montserrat", sans-serif;
 
   .logo-text {
     font-size: 1.7vw;
     margin-left: 20px;
-    font-weight: bold;
+    font-weight: 600;
   }
 
   .logo-container {
@@ -48,6 +47,7 @@ li {
       color: white;
       font-size: 0.8rem;
       transition: all ease-in-out 600ms;
+      font-weight: 600;
     }
     .option:hover {
       color: aquamarine;

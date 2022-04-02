@@ -1,81 +1,99 @@
 import React, { useState, useEffect } from "react";
 import { Drawer } from "@mui/material";
 import {
-  ChatDots,
-  Microphone,
+  MicOff,
+  Mic,
+  ScreenShare,
   Camera,
-  DesktopDevice,
-  PeopleGroup,
-} from "akar-icons";
-import { useLocation } from "react-router-dom";
+  Groups,
+  Chat,
+} from "@mui/icons-material";
 
+import { getDate } from "Helpers/Helpers";
 import CustomButton from "Components/CustomButton/CustomButton.component";
 import "./Chat.styles.css";
 
-interface MicroServicesProps {
-  Hide?: boolean;
-  setHide: () => void;
-}
-
-export const ChatNavigation: React.FC = () => {
-  const [Hide, setHide] = useState(false);
-
-  const handleClose = () => {
-    setHide(!Hide);
-  };
+export const ChatNavigation: React.FC<Props> = (props) => {
   return (
     <React.Fragment>
-      <ChatDrawer Hide={Hide} setHide={handleClose} />
-      <VideoControlPanel Hide={Hide} setHide={handleClose} />
+      <ChatDrawer Hide={props.Hide} setHide={props.setHide} />
+      <VideoControlPanel
+        Hide={props.Hide}
+        setHide={props.setHide}
+        senders={props.senders}
+        micMuted={props.micMuted}
+        setMicMuted={props.setMicMuted}
+        checkVideo={props.checkVideo}
+        setCheckVideo={props.setCheckVideo}
+      />
     </React.Fragment>
   );
 };
 
-const VideoControlPanel: React.FC<MicroServicesProps> = ({ setHide }) => {
+export const VideoControlPanel = (props: Props) => {
+  let localStream: MediaStream;
   const [time, setTime] = useState("");
-  const params = new URLSearchParams(window.location.search);
-  const roomID = params.get("roomID");
-  const getDate = () => {
-    let date = new Date();
-    let hours: string | number =
-      date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
-    var am_pm = date.getHours() >= 12 ? "PM" : "AM";
-    hours = hours < 10 ? "0" + hours : hours;
-    var minutes =
-      date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-    setTime(hours + ":" + minutes + " " + am_pm);
-  };
-
   useEffect(() => {
-    setInterval(getDate, 1000);
+    setTime(getDate());
   }, []);
+  const _handleShareScreen = async () => {
+    //@ts-ignore
+    await navigator.mediaDevices.getDisplayMedia().then((stream) => {
+      const screenTrack = stream.getTracks()[0];
+      props.senders.current
+        .find((sender) => sender.track?.kind === "video")
+        ?.replaceTrack(screenTrack);
+      screenTrack.onended = async () => {
+        navigator.mediaDevices
+          .getUserMedia({
+            audio: props.micMuted,
+            video: {
+              width: { min: 640, ideal: 1280, max: 1920 },
+              height: { min: 480, ideal: 720, max: 1080 },
+              frameRate: { max: 59 },
+            },
+          })
+          .then((stream) => {
+            localStream = stream;
+            props.senders.current
+              .find((sender) => sender.track?.kind === "video")
+              ?.replaceTrack(localStream.getVideoTracks()[0]);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+    });
+  };
   return (
     <div className="Bottom_Navigation_Wrapper">
-      <span className="Daytime">
-        {time} | {roomID}{" "}
-      </span>
+      <span className="Daytime">{time}</span>
       <div className="Bottom_Navigation_Container">
-        <CustomButton onClick={() => setHide()} title="Chat">
-          <ChatDots style={{ color: "white" }} size={26} />
+        <CustomButton onClick={() => props.setHide()} title="Chat">
+          <Chat style={{ color: "white" }} />
         </CustomButton>
-        <CustomButton title="Mute / Unmute">
-          <Microphone style={{ color: " white" }} size={26} />
+        <CustomButton title="Mute / Unmute" onClick={props.setMicMuted}>
+          {props.micMuted ? (
+            <Mic style={{ color: " white" }} />
+          ) : (
+            <MicOff style={{ color: "white" }} />
+          )}
         </CustomButton>
         <CustomButton title="Webcam On / Off">
-          <Camera style={{ color: "white" }} size={26} />
+          <Camera style={{ color: "white" }} />
         </CustomButton>
-        <CustomButton title="Share Screen">
-          <DesktopDevice style={{ color: "white" }} size={26} />
+        <CustomButton onClick={_handleShareScreen} title="Share Screen">
+          <ScreenShare style={{ color: "white" }} />
         </CustomButton>
         <CustomButton title="Peoples">
-          <PeopleGroup style={{ color: "white" }} size={26} />
+          <Groups style={{ color: "white" }} />
         </CustomButton>
       </div>
     </div>
   );
 };
 
-const ChatDrawer: React.FC<MicroServicesProps> = ({ Hide, setHide }) => {
+export const ChatDrawer: React.FC<MicroServicesProps> = ({ Hide, setHide }) => {
   return (
     <Drawer
       anchor="right"
@@ -103,3 +121,18 @@ const ChatDrawer: React.FC<MicroServicesProps> = ({ Hide, setHide }) => {
     </Drawer>
   );
 };
+
+interface MicroServicesProps {
+  Hide: boolean;
+  setHide: () => void;
+}
+interface IChatProps {
+  localStream?: MediaStream;
+  senders: React.MutableRefObject<RTCRtpSender[]>;
+  micMuted: boolean;
+  checkVideo: boolean;
+  setCheckVideo: () => void;
+  setMicMuted: () => void;
+}
+
+type Props = MicroServicesProps & IChatProps;

@@ -18,9 +18,6 @@ class MeetPage extends React.Component<UserCallProps> {
         <div className="Meet_callContainer">
           <Room roomID={this.state.roomID} />
         </div>
-        <div className="Meet_chatContainer">
-          <ChatNavigation />
-        </div>
       </section>
     );
   }

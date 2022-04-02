@@ -58,7 +58,7 @@ const SignUp: React.FC = () => {
                   size={18}
                   style={{ marginRight: 10, fill: "white" }}
                 />
-                Join US
+                Join Us
               </CustomButton>
             </div>
           </Grid>

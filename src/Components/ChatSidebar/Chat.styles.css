@@ -8,7 +8,6 @@
 }
 
 .inCallMessage_Wrapper .Chat_header {
-  font-family: 'Montserrat', sans-serif;
   font-size: 18px;
 }
 
@@ -31,13 +30,11 @@
       -ms-flex-align: center;
           align-items: center;
   width: 100%;
-  margin: 5px;
+  margin-top: 25px;
 }
 
 .Bottom_Navigation_Wrapper .Bottom_Navigation_Container {
   text-align: center;
-  padding: 5px 10px 5px 10px;
-  background-color: #17252A;
   border-radius: 5px;
 }
 
