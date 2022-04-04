@@ -1,13 +1,18 @@
 import React from "react";
-import { Button } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 
 import "./CustomButton.styles.css";
 
 const CustomButton: React.FC<ButtonProps> = (props: ButtonProps) => {
   return (
-    <Button onClick={props.onClick} {...props} title={props.title}>
+    <LoadingButton
+      onClick={props.onClick}
+      title={props.title}
+      loading={props.loading}
+      {...props}
+    >
       {props.children}
-    </Button>
+    </LoadingButton>
   );
 };
 

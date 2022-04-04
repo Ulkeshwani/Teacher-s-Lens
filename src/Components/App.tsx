@@ -11,10 +11,10 @@ const App: React.FC = () => {
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={Landing} />
-        <Route path="/Join-Us" component={SignupPage} />
-        <Route path="/CreateRoom" component={CreateRoom} />
-        <Route path="/Meet/:roomID" component={MeetPage} />
-        <Route path="/Home" component={Home} />
+        <Route exact path="/Join-Us" component={SignupPage} />
+        <Route exact path="/CreateRoom" component={CreateRoom} />
+        <Route exact path="/Meet/:roomID" component={MeetPage} />
+        <Route exact path="/dashboard/app" component={Home} />
       </Switch>
     </BrowserRouter>
   );

@@ -4,4 +4,5 @@ interface ButtonProps {
   props?: any;
   onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   title?: string;
+  loading? :boolean;
 }
