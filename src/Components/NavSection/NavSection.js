@@ -1,10 +1,13 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import { Icon } from "@iconify/react";
 import {
   NavLink as RouterLink,
   matchPath,
   useLocation,
 } from "react-router-dom";
+import arrowIosForwardFill from "@iconify/icons-eva/arrow-ios-forward-fill";
+import arrowIosDownwardFill from "@iconify/icons-eva/arrow-ios-downward-fill";
 // material
 import { alpha, useTheme, styled } from "@mui/material/styles";
 import {
@@ -15,8 +18,6 @@ import {
   ListItemIcon,
   ListItemButton,
 } from "@mui/material";
-//
-import Iconify from "./Iconify";
 
 // ----------------------------------------------------------------------
 
@@ -63,25 +64,27 @@ function NavItem({ item, active }) {
   const theme = useTheme();
   const isActiveRoot = active(item.path);
   const { title, path, icon, info, children } = item;
-  const [open, setOpen] = useState(isActiveRoot);
-  console.log(isActiveRoot);
+  const [open, setOpen] = useState(!isActiveRoot);
 
   const handleOpen = () => {
     setOpen((prev) => !prev);
   };
 
   const activeRootStyle = {
-    color: "primary.default",
+    color: "primary.main",
     fontWeight: "fontWeightMedium",
-    bgcolor: alpha("#a0f299", "#a0f299"),
+    bgcolor: alpha(
+      theme.palette.primary.main,
+      theme.palette.action.selectedOpacity
+    ),
     "&:before": { display: "block" },
   };
 
   const activeSubStyle = {
-    color: "white",
+    // color: 'text.primary',
+    color: "primary.main",
     fontWeight: "fontWeightMedium",
   };
-
   if (children) {
     return (
       <>
@@ -92,23 +95,29 @@ function NavItem({ item, active }) {
           }}
         >
           <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
-          <ListItemText disableTypography primary={title} />
+          <ListItemText
+            disableTypography
+            primary={title}
+            sx={{
+              fontFamily: "Quicksand",
+              fontWeight: "900",
+            }}
+          />
           {info && info}
-          <Iconify
-            icon={
-              open
-                ? "eva:arrow-ios-downward-fill"
-                : "eva:arrow-ios-forward-fill"
-            }
+          <Box
+            component={Icon}
+            icon={open ? arrowIosDownwardFill : arrowIosForwardFill}
             sx={{ width: 16, height: 16, ml: 1 }}
           />
         </ListItemStyle>
 
         <Collapse in={open} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
+          <List component="div" style={{ padding: 10 }}>
             {children.map((item) => {
-              const { title, path } = item;
+              const { title, path, icon } = item;
               const isActiveSub = active(path);
+
+              console.log(isActiveSub);
 
               return (
                 <ListItemStyle
@@ -119,30 +128,14 @@ function NavItem({ item, active }) {
                     ...(isActiveSub && activeSubStyle),
                   }}
                 >
-                  <ListItemIconStyle>
-                    <Box
-                      component="span"
-                      sx={{
-                        width: 4,
-                        height: 4,
-                        display: "flex",
-                        borderRadius: "50%",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        bgcolor: "text.disabled",
-                        transition: (theme) =>
-                          theme.transitions.create("transform"),
-                        ...(isActiveSub && {
-                          transform: "scale(2)",
-                          bgcolor: "primary.main",
-                        }),
-                      }}
-                    />
-                  </ListItemIconStyle>
+                  <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
                   <ListItemText
                     disableTypography
                     primary={title}
-                    color={"white"}
+                    sx={{
+                      fontFamily: "Quicksand",
+                      fontWeight: "900",
+                    }}
                   />
                 </ListItemStyle>
               );
@@ -162,7 +155,14 @@ function NavItem({ item, active }) {
       }}
     >
       <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
-      <ListItemText disableTypography primary={title} />
+      <ListItemText
+        disableTypography
+        primary={title}
+        sx={{
+          fontFamily: "Quicksand",
+          fontWeight: "900",
+        }}
+      />
       {info && info}
     </ListItemStyle>
   );
@@ -174,9 +174,9 @@ NavSection.propTypes = {
 
 export default function NavSection({ navConfig, ...other }) {
   const { pathname } = useLocation();
-  const match = (path) =>
-    path ? !!matchPath({ path, end: false }, pathname) : false;
-
+  const match = (path) => {
+    return matchPath(pathname, { path, exact: true }, path);
+  };
   return (
     <Box {...other}>
       <List disablePadding>

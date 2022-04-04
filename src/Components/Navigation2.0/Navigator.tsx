@@ -55,7 +55,7 @@ export default function Navigator({
 }: NavigatorProps) {
   const { pathname } = useLocation();
 
-  const isDesktop = useResponsive("up", "lg");
+  const isDesktop = useResponsive("up", "sm");
 
   useEffect(() => {
     if (isOpenSidebar) {
