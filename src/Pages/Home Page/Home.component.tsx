@@ -166,6 +166,13 @@ theme = {
         },
       },
     },
+    MuiAppBar: {
+      styleOverrides: {
+        colorPrimary: {
+          backgroundColor: "#3AAFA9",
+        },
+      },
+    },
   },
 };
 

@@ -30,6 +30,7 @@ const ListItemStyle = styled((props) => (
   textTransform: "capitalize",
   paddingLeft: theme.spacing(5),
   paddingRight: theme.spacing(2.5),
+  margin: theme.spacing(2),
   color: theme.palette.text.secondary,
   "&:before": {
     top: 0,
@@ -42,6 +43,7 @@ const ListItemStyle = styled((props) => (
     borderTopLeftRadius: 4,
     borderBottomLeftRadius: 4,
     backgroundColor: theme.palette.primary.main,
+    margin: 10,
   },
 }));
 
@@ -64,14 +66,14 @@ function NavItem({ item, active }) {
   const theme = useTheme();
   const isActiveRoot = active(item.path);
   const { title, path, icon, info, children } = item;
-  const [open, setOpen] = useState(!isActiveRoot);
+  const [open, setOpen] = useState(isActiveRoot);
 
   const handleOpen = () => {
     setOpen((prev) => !prev);
   };
 
   const activeRootStyle = {
-    color: "primary.main",
+    color: "#3AAFA9",
     fontWeight: "fontWeightMedium",
     bgcolor: alpha(
       theme.palette.primary.main,
