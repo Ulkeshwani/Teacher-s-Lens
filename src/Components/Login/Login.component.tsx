@@ -3,18 +3,19 @@ import { Grid, InputBase } from "@mui/material";
 import CustomButton from "Components/CustomButton/CustomButton.component";
 import { PeopleGroup, EyeOpen } from "akar-icons";
 import "./Login.styles.css";
+import { LoadingButton } from "@mui/lab";
 
 const textFieldStyles = {
-  width: "78%",
+  width: "80%",
   color: "white",
   borderBottomColor: "white",
   borderBottom: "1px solid white",
   marginBottom: 10,
   height: 40,
-  fontFamily: "Montserrat",
 };
 
 const Login: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [show, toggle] = useState(false);
   const _showPassword = () => {
     toggle(!show);
@@ -26,7 +27,11 @@ const Login: React.FC = () => {
       <form className="login_container">
         <Grid container spacing={1} xl={12} xs={12} alignItems="flex-end">
           <Grid item xl={12} xs={12}>
-            <InputBase placeholder="Email" style={textFieldStyles} />
+            <InputBase
+              placeholder="Email"
+              style={textFieldStyles}
+              type="email"
+            />
           </Grid>
           <Grid item xl={12} xs={12}>
             <InputBase
@@ -44,7 +49,11 @@ const Login: React.FC = () => {
           </Grid>
           <Grid item xl={10} xs={10}>
             <div className="_Button_Container">
-              <CustomButton className="_Login_Button">
+              <CustomButton
+                className="_Login_Button"
+                loading={isLoading}
+                onClick={() => setIsLoading(!LoadingButton)}
+              >
                 <PeopleGroup
                   size={16}
                   style={{ marginRight: 10, fill: "white" }}

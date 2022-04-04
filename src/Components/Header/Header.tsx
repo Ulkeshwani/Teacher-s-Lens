@@ -13,16 +13,27 @@ import Tabs from "@mui/material/Tabs";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+import Model from "Components/Custom Model/Model.component";
+import Content from "Components/Content/Content";
 
 const lightColor = "rgba(255, 255, 255, 0.7)";
 
 interface HeaderProps {
+  title?: string;
+  tabs?: any;
+  onTabChange?: any;
+  onTabChangeIndex?: any;
+  onTabChangeIndexValue?: any;
   onDrawerToggle: () => void;
 }
 
 export default function Header(props: HeaderProps) {
   const { onDrawerToggle } = props;
 
+  const [open, setOpen] = React.useState(false);
+  const handleCustomModel = () => {
+    setOpen(!open);
+  };
   return (
     <React.Fragment>
       <AppBar color="primary" position="sticky" elevation={0}>
@@ -40,24 +51,7 @@ export default function Header(props: HeaderProps) {
             </Grid>
             <Grid item xs />
             <Grid item>
-              <Link
-                href="/"
-                variant="body2"
-                sx={{
-                  textDecoration: "none",
-                  color: lightColor,
-                  "&:hover": {
-                    color: "common.white",
-                  },
-                }}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Go to docs
-              </Link>
-            </Grid>
-            <Grid item>
-              <Tooltip title="Alerts • No alerts">
+              <Tooltip title="Alerts">
                 <IconButton color="inherit">
                   <NotificationsIcon />
                 </IconButton>
@@ -85,23 +79,6 @@ export default function Header(props: HeaderProps) {
                 Dashboard
               </Typography>
             </Grid>
-            <Grid item>
-              <Button
-                sx={{ borderColor: lightColor }}
-                variant="outlined"
-                color="inherit"
-                size="small"
-              >
-                Web setup
-              </Button>
-            </Grid>
-            <Grid item>
-              <Tooltip title="Help">
-                <IconButton color="inherit">
-                  <HelpIcon />
-                </IconButton>
-              </Tooltip>
-            </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
@@ -110,14 +87,12 @@ export default function Header(props: HeaderProps) {
         position="static"
         elevation={0}
         sx={{ zIndex: 0 }}
-      >
-        <Tabs value={0} textColor="inherit">
-          <Tab label="Users" />
-          <Tab label="Sign-in method" />
-          <Tab label="Templates" />
-          <Tab label="Usage" />
-        </Tabs>
-      </AppBar>
+      ></AppBar>
+      <Model
+        open={open}
+        handleDialog={handleCustomModel}
+        title="Custom Model"
+      ></Model>
     </React.Fragment>
   );
 }
