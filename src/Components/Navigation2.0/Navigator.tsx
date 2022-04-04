@@ -22,6 +22,8 @@ import useResponsive from "../../Hooks/useResponsive";
 import NavSection from "../../Components/NavSection/NavSection";
 //
 import sidebarConfig from "./sidebarConfig";
+import { Icon } from "@iconify/react";
+import safetyGoggles from "@iconify/icons-mdi/safety-goggles";
 
 // ----------------------------------------------------------------------
 
@@ -66,7 +68,17 @@ export default function Navigator({
 
   const renderContent = (
     <>
-      <Box sx={{ px: 2.5, py: 3, display: "inline-flex" }}>Logo Here</Box>
+      <Box
+        sx={{
+          px: 2.5,
+          py: 3,
+          display: "inline-flex",
+          justifyContent: "space-evenly",
+        }}
+      >
+        <Icon icon={safetyGoggles} style={{ zoom: 2 }} />
+        <Typography variant="h6">Teacher's Lens</Typography>
+      </Box>
 
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none" component={RouterLink} to="#">
@@ -74,10 +86,10 @@ export default function Navigator({
             <Avatar alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-                {"Admin"}
+                {"Ulkesh Wani"}
               </Typography>
               <Typography variant="body2" sx={{ color: "text.primary" }}>
-                {"Super Admin"}
+                {"Admin"}
               </Typography>
             </Box>
           </AccountStyle>

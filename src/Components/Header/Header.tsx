@@ -8,6 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import VideoCallIcon from "@mui/icons-material/VideoCall";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import Toolbar from "@mui/material/Toolbar";
@@ -25,15 +26,16 @@ interface HeaderProps {
   onTabChangeIndex?: any;
   onTabChangeIndexValue?: any;
   onDrawerToggle: () => void;
+  showRoomButton?: boolean;
 }
 
 export default function Header(props: HeaderProps) {
   const { onDrawerToggle } = props;
-
   const [open, setOpen] = React.useState(false);
   const handleCustomModel = () => {
     setOpen(!open);
   };
+
   return (
     <React.Fragment>
       <AppBar color="primary" position="sticky" elevation={0}>
@@ -76,8 +78,18 @@ export default function Header(props: HeaderProps) {
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
               <Typography color="inherit" variant="h5" component="h1">
-                Dashboard
+                {props.title}
               </Typography>
+            </Grid>
+            <Grid item>
+              <Tooltip title="Create Room">
+                <IconButton color="inherit">
+                  <VideoCallIcon />
+                  <Typography color="inherit" variant="caption">
+                    Create Room
+                  </Typography>
+                </IconButton>
+              </Tooltip>
             </Grid>
           </Grid>
         </Toolbar>

@@ -37,17 +37,17 @@ const sidebarConfig = [
   },
   {
     title: "Create Conversation",
-    path: "/dashboard/profile",
+    path: "/dashboard/create-conversation",
     icon: getIcon(videoPlus),
   },
   {
     title: "Join Conversation",
-    path: "/dashboard/profile",
+    path: "/dashboard/join-conversation",
     icon: getIcon(laptopAccount),
   },
   {
     title: "Announcements & Notifications",
-    path: "/dashboard/profile",
+    path: "/dashboard/announcements",
     icon: getIcon(squareRoundedBadgeOutline),
   },
   {
