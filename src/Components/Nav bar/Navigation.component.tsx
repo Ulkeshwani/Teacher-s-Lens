@@ -1,13 +1,10 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { ReactComponent as Logo } from "../../Assets/Logo/vr-cardboard-solid.svg";
 import { Link } from "react-router-dom";
-import { ThreeLineHorizontal } from "akar-icons";
 
 import "./Navigation.styles.css";
 
 const Navigation: React.FC = (Props) => {
-  const CurrentPath = useHistory();
   const [showNav, setShowNav] = useState(true);
   return (
     <nav className="navbar">
@@ -18,7 +15,7 @@ const Navigation: React.FC = (Props) => {
       <div className="options">
         {showNav ? (
           <React.Fragment>
-            <Link
+            {/* <Link
               className="option"
               to={
                 CurrentPath.location.pathname === "/Join-Us" ? "/" : "/Join-Us"
@@ -27,7 +24,7 @@ const Navigation: React.FC = (Props) => {
               {CurrentPath.location.pathname === "/Join-Us"
                 ? "LOGIN"
                 : "SIGNUP"}
-            </Link>
+            </Link> */}
             <Link className="option" to="#">
               CONTACT
             </Link>
@@ -40,11 +37,11 @@ const Navigation: React.FC = (Props) => {
           </React.Fragment>
         ) : null}
 
-        <ThreeLineHorizontal
+        {/* <ThreeLineHorizontal
           size={24}
           onClick={() => setShowNav(!showNav)}
           style={{ transition: "all ease 600ms" }}
-        />
+        /> */}
       </div>
     </nav>
   );

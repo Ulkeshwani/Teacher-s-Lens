@@ -15,7 +15,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import Model from "Components/Custom Model/Model.component";
-import Content from "Components/Content/Content";
 
 const lightColor = "rgba(255, 255, 255, 0.7)";
 

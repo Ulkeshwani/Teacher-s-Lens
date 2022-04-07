@@ -8,12 +8,15 @@ const Announcement: React.FC<AnnoucementProps> = (Props: AnnoucementProps) => {
   return (
     <div className="_Announcement_Container">
       <div className="_Inner_Container">
-        <Avatar className="_People_Avatar">A</Avatar>
+        <Avatar className="_People_Avatar">U</Avatar>
         <label className="Host">Announcement</label>
 
         <label className="_current_Time">
           {" "}
-          <SeverityPill color={"warning"}>Date</SeverityPill>
+          <SeverityPill color={"warning"}>
+            {" "}
+            {new Date().toDateString()}
+          </SeverityPill>
         </label>
       </div>
       <div className="_announcement_Desc_container">

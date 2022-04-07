@@ -27,7 +27,7 @@ import safetyGoggles from "@iconify/icons-mdi/safety-goggles";
 
 // ----------------------------------------------------------------------
 
-const DRAWER_WIDTH = 260;
+const DRAWER_WIDTH = 270;
 
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("lg")]: {
@@ -77,7 +77,9 @@ export default function Navigator({
         }}
       >
         <Icon icon={safetyGoggles} style={{ zoom: 2 }} />
-        <Typography variant="h6">Teacher's Lens</Typography>
+        <Typography variant="h6" color="white">
+          Teacher's Lens
+        </Typography>
       </Box>
 
       <Box sx={{ mb: 5, mx: 2.5 }}>

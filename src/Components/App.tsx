@@ -8,7 +8,12 @@ import MeetPage from "Pages/Meeting Page/MeetPage.pages";
 import Home from "Pages/Home Page/Home.component";
 import Conversation from "Pages/Create Conversation/Conversation.page";
 import AnnouncementPage from "Pages/Announcement & Notification/Announcement.page";
+import CreateRoom from "../Components/CreateRoom/CreateRoom";
 import theme from "utils/theme";
+import User from "Pages/Administration/User/User.page";
+import School from "Pages/Administration/School/School.page";
+import Organisation from "Pages/Administration/Organisation/Organisation.page";
+import Profile from "Pages/Profile/Profile";
 
 const App: React.FC = () => {
   return (
@@ -23,13 +28,26 @@ const App: React.FC = () => {
             path="/dashboard/create-conversation"
             component={Conversation}
           />
+          <Route exact path="/createRoom" component={CreateRoom} />
           <Route exact path="/Meet/:roomID" component={MeetPage} />
-          <Route exact path="/dashboard/app" component={Home} />
+          <Route exact path="/dashboard" component={Home} />
+          <Route exact path="/dashboard/administration/user" component={User} />
+          <Route
+            exact
+            path="/dashboard/administration/school"
+            component={School}
+          />
+          <Route
+            exact
+            path="/dashboard/administration/organisation"
+            component={Organisation}
+          />
           <Route
             exact
             path="/dashboard/announcements"
             component={AnnouncementPage}
           />
+          <Route exact path="/dashboard/profile" component={Profile} />
         </Switch>
       </BrowserRouter>
     </ThemeProvider>

@@ -8,6 +8,7 @@ import accountGroup from "@iconify/icons-mdi/account-group";
 import videoPlus from "@iconify/icons-mdi/video-plus";
 import laptopAccount from "@iconify/icons-mdi/laptop-account";
 import squareRoundedBadgeOutline from "@iconify/icons-mdi/square-rounded-badge-outline";
+import officeBuildingCog from "@iconify/icons-mdi/office-building-cog";
 // ----------------------------------------------------------------------
 
 const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
@@ -15,22 +16,27 @@ const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
 const sidebarConfig = [
   {
     title: "Dashboard",
-    path: "/dashboard/app",
+    path: "/dashboard",
     icon: getIcon(viewDashboard),
   },
   {
     title: "Administration",
-    path: "/dashboard/admin",
+    path: "/dashboard/administration",
     icon: getIcon(accountWrench),
     children: [
       {
-        title: "Roles",
-        path: "/dashboard/admin/roles",
-        icon: getIcon(accountCog),
+        title: "Organisation",
+        path: "/dashboard/administration/organisation",
+        icon: getIcon(officeBuildingCog),
+      },
+      {
+        title: "School / College",
+        path: "/dashboard/administration/school",
+        icon: getIcon(officeBuildingCog),
       },
       {
         title: "Users",
-        path: "/dashboard/admin/user",
+        path: "/dashboard/administration/user",
         icon: getIcon(accountGroup),
       },
     ],

@@ -10,8 +10,15 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import Model from "../Custom Model/Model.component";
+import UserInput from "Pages/Administration/User/UserInput.component";
 
-export default function Content() {
+export default function UserContent(props) {
+  const [open, setOpen] = React.useState(false);
+  const handleCustomModel = () => {
+    setOpen(!open);
+  };
+  const { formikProps } = props;
   return (
     <Paper sx={{ maxWidth: 936, margin: "auto", overflow: "hidden" }}>
       <AppBar
@@ -28,7 +35,7 @@ export default function Content() {
             <Grid item xs>
               <TextField
                 fullWidth
-                placeholder="Search by email address, phone number, or user UID"
+                placeholder="Search"
                 InputProps={{
                   disableUnderline: true,
                   sx: { fontSize: "default" },
@@ -37,8 +44,22 @@ export default function Content() {
               />
             </Grid>
             <Grid item>
-              <Button variant="contained" sx={{ mr: 1 }}>
-                Add user
+              <Model
+                open={open}
+                handleDialog={handleCustomModel}
+                title="Add User"
+              >
+                <UserInput
+                  props={formikProps}
+                  handleDialog={handleCustomModel}
+                />
+              </Model>
+              <Button
+                variant="contained"
+                sx={{ mr: 1 }}
+                onClick={handleCustomModel}
+              >
+                Add User
               </Button>
               <Tooltip title="Reload">
                 <IconButton>
@@ -49,7 +70,7 @@ export default function Content() {
           </Grid>
         </Toolbar>
       </AppBar>
-      <Typography sx={{ my: 5, mx: 2 }} color="text.secondary" align="center">
+      <Typography sx={{ my: 5, mx: 2 }} align="center">
         No users for this project yet
       </Typography>
     </Paper>

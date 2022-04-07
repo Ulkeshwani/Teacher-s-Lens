@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import Navigator from "../../Components/Navigation2.0/Navigator";
 import Header from ".../../Components/Header/Header";
+import ProfileContent from "Components/Content/ProfileContent";
 
 function Copyright() {
   return (
@@ -21,7 +22,7 @@ function Copyright() {
 
 const drawerWidth = 260;
 
-function Home() {
+function Profile() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const isSmUp = useMediaQuery(theme.breakpoints.up("sm"));
@@ -45,11 +46,13 @@ function Home() {
         <Navigator isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
       </Box>
       <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        <Header onDrawerToggle={handleDrawerToggle} title="Dasboard" />
+        <Header onDrawerToggle={handleDrawerToggle} title="Profile" />
         <Box
           component="main"
           sx={{ flex: 1, py: 6, px: 4, bgcolor: "#eaeff1" }}
-        ></Box>
+        >
+          <ProfileContent />
+        </Box>
         <Box component="footer" sx={{ p: 2, bgcolor: "#000000" }}>
           <Copyright />
         </Box>
@@ -57,4 +60,4 @@ function Home() {
     </Box>
   );
 }
-export default Home;
+export default Profile;

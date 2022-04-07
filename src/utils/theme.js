@@ -151,6 +151,13 @@ theme = {
         },
       },
     },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          color: "#000000",
+        },
+      },
+    },
   },
 };
 
