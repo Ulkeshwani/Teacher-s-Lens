@@ -10,7 +10,7 @@ export function Notification({ message, severity, open, onClose }) {
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
     >
       <Alert
-        severity={severity}
+        severity={severity ? severity : "error"}
         variant="filled"
         sx={{ width: "100%", color: "white" }}
       >
