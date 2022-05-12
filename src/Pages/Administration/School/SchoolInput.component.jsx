@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { FormikProvider, Form, Field } from "formik";
 import { makeStyles } from "@mui/styles";
 import { Icon } from "@iconify/react";
 // import FileUpload from 'react-mui-fileuploader';
+import SchoolDatabaseService from "../../../services/school.services";
+import { Notification } from "../../../Components/Notification/Notification.component";
 import {
   Grid,
   TextField,
@@ -29,6 +31,15 @@ const SchoolInput = ({
     getFieldProps,
     resetForm,
   } = props;
+
+  const [alert, setAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState("");
+  const [alertType, setAlertType] = useState("");
+
+  const handleAlert = () => {
+    setAlert(!alert);
+  };
+
   const validateVolunteerRejx = (event) => {
     if (!/[0-9]/.test(event.key)) {
       event.preventDefault();
@@ -132,7 +143,48 @@ const SchoolInput = ({
           </LoadingButton>
           <LoadingButton
             variant="contained"
-            onClick={handleSubmit}
+            onClick={() => {
+              SchoolDatabaseService.getAll().on("value", (snapshot) => {
+                if (snapshot.exists()) {
+                  let data = snapshot.val();
+                  let keys = Object.keys(data);
+                  keys.forEach((key) => {
+                    if (data[key].email === props.values.email) {
+                      setAlertContent("Email already exists");
+                      setAlertType("error");
+                      setAlert(true);
+                      return;
+                    }
+                  });
+                }
+                if (
+                  errors.name ||
+                  errors.email ||
+                  errors.contactNumber ||
+                  errors.address ||
+                  errors.organisation
+                ) {
+                  setAlertContent("Please fill all the fields");
+                  setAlertType("error");
+                  setAlert(true);
+                } else {
+                  SchoolDatabaseService.create(props.values)
+                    .then(() => {
+                      handleDialog();
+                      resetForm();
+                      setAlertContent("School/College Added Successfully.");
+                      setAlertType("success");
+                      setAlert(true);
+                    })
+                    .catch((err) => {
+                      setAlertContent("Something went wrong!", err);
+                      setAlertType("error");
+                      setAlert(true);
+                      console.log(err);
+                    });
+                }
+              });
+            }}
             loading={isSubmitting}
             style={{ marginRight: 5 }}
           >
@@ -140,6 +192,12 @@ const SchoolInput = ({
           </LoadingButton>
         </Container>
       </Form>
+      <Notification
+        message={alertContent}
+        open={alert}
+        onClose={handleAlert}
+        severity={alertType}
+      />
     </FormikProvider>
   );
 };

@@ -10,6 +10,7 @@ import Navigator from "Components/Navigation2.0/Navigator";
 import Header from "Components/Header/Header";
 import UserContent from "Components/Content/UserContent";
 import UserInput from "./UserInput.component";
+import UserDatabaseService from "../../../services/user.services";
 
 function Copyright() {
   return (
@@ -68,7 +69,20 @@ function User() {
       contactNumber: null,
     },
     validationSchema: UserSchema,
-    onSubmit: async () => {},
+    onSubmit: () => {
+      let data = {
+        ...formik.values,
+      };
+      console.log(data);
+      UserDatabaseService.create(data)
+        .then((response) => {
+          console.log("Data Submitted", response);
+          formik.resetForm();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   });
 
   const handleDrawerToggle = () => {

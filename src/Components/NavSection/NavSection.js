@@ -119,8 +119,6 @@ function NavItem({ item, active }) {
               const { title, path, icon } = item;
               const isActiveSub = active(path);
 
-              console.log(isActiveSub);
-
               return (
                 <ListItemStyle
                   key={title}

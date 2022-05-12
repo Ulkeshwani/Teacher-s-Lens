@@ -15,9 +15,11 @@ import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import Model from "Components/Custom Model/Model.component";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useHistory } from "react-router";
+import { v1 as uuidv1 } from "uuid";
 
 const lightColor = "rgba(255, 255, 255, 0.7)";
-
 interface HeaderProps {
   title?: string;
   tabs?: any;
@@ -29,10 +31,16 @@ interface HeaderProps {
 }
 
 export default function Header(props: HeaderProps) {
+  const history = useHistory();
   const { onDrawerToggle } = props;
   const [open, setOpen] = React.useState(false);
   const handleCustomModel = () => {
     setOpen(!open);
+  };
+
+  const handleCreateRoom = () => {
+    const id = uuidv1();
+    history.replace(`/Meet/${id}`);
   };
 
   return (
@@ -60,7 +68,19 @@ export default function Header(props: HeaderProps) {
             </Grid>
             <Grid item>
               <IconButton color="inherit" sx={{ p: 0.5 }}>
-                <Avatar src="/static/images/avatar/1.jpg" alt="My Avatar" />
+                <Avatar src="/static/images/avatar/1.jpg" alt="Ulkesh" />
+              </IconButton>
+            </Grid>
+            <Grid item>
+              <IconButton
+                color="inherit"
+                sx={{ p: 0.5 }}
+                onClick={() => history.replace("/login")}
+              >
+                <LogoutIcon color="inherit" sx={{ display: "block" }} />
+                <Typography variant="caption" color="inherit">
+                  Logout
+                </Typography>
               </IconButton>
             </Grid>
           </Grid>
@@ -82,7 +102,7 @@ export default function Header(props: HeaderProps) {
             </Grid>
             <Grid item>
               <Tooltip title="Create Room">
-                <IconButton color="inherit">
+                <IconButton color="inherit" onClick={handleCreateRoom}>
                   <VideoCallIcon />
                   <Typography color="inherit" variant="caption">
                     Create Room

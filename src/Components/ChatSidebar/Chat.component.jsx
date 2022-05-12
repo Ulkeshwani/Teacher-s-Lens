@@ -159,7 +159,14 @@ export const ChatDrawer = ({
               placeholder="Type a message"
               InputProps={{
                 disableUnderline: true,
-                sx: { fontSize: "default", color: "white", marginTop: "10px" },
+                sx: {
+                  fontSize: "default",
+                  color: "black",
+                  marginTop: "10px",
+                  borderRadius: "20px",
+                  backgroundColor: "white",
+                  padding: "5px",
+                },
               }}
               value={text}
               variant="standard"

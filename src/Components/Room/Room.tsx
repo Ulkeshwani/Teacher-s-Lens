@@ -4,9 +4,15 @@ import Video from "Components/Video";
 
 import "./Room.styles.css";
 import { ChatNavigation } from "Components/ChatSidebar/Chat.component";
+import data from "@iconify/icons-eva/arrow-ios-forward-fill";
 
 type CallProperties = {
   roomID?: string;
+};
+
+type MessageProps = {
+  yourself: boolean;
+  message: string;
 };
 
 const Room = ({ roomID }: CallProperties) => {
@@ -17,6 +23,10 @@ const Room = ({ roomID }: CallProperties) => {
   const [Hide, setHide] = useState(false);
   const [mic, setMic] = useState(false);
   const [isVideoOn, setIsVideoOn] = useState(true);
+  const sendChannel = useRef<RTCDataChannel>();
+  const [messages, setMessages] = useState<Array<MessageProps>>([]);
+
+  let newSocket = io.connect("ws://localhost:8080");
 
   const handleVideo = () => {
     setIsVideoOn(!isVideoOn);
@@ -39,14 +49,19 @@ const Room = ({ roomID }: CallProperties) => {
   const pc_config = {
     iceServers: [
       {
-        urls: "stun:stun.l.google.com:19302",
+        urls: [
+          "stun:stun.l.google.com:19302",
+          "stun:stun.l.google.com:19302",
+          "stun:stun1.l.google.com:19302",
+          "stun:stun2.l.google.com:19302",
+          "stun:stun3.l.google.com:19302",
+          "stun:stun.stunprotocol.org:3478",
+        ],
       },
     ],
   };
 
   useEffect(() => {
-    let newSocket = io.connect("ws://localhost:8080");
-
     newSocket.on("userEnter", (data: { id: string }) => {
       createReceivePC(data.id, newSocket);
     });
@@ -73,6 +88,7 @@ const Room = ({ roomID }: CallProperties) => {
           await sendPC.setRemoteDescription(
             new RTCSessionDescription(data.sdp)
           );
+          console.log(sendPC);
         } catch (error) {
           console.log(error);
         }
@@ -138,12 +154,15 @@ const Room = ({ roomID }: CallProperties) => {
       })
       .then((stream) => {
         if (localVideoRef.current) localVideoRef.current.srcObject = stream;
-
         localStream = stream;
-
         sendPC = createSenderPeerConnection(newSocket, localStream);
+        sendChannel.current = sendPC.createDataChannel("sendChannel");
+        sendChannel.current.onopen = (event) => {
+          console.log("WebRTC Data channel is Now Open", event);
+        };
+        sendChannel.current.onmessage = handleReceiveMessage;
+        console.log("Data Channel State", sendChannel);
         createSenderOffer(newSocket);
-
         newSocket.emit("joinRoom", {
           id: newSocket.id,
           roomID: localUuid,
@@ -168,12 +187,11 @@ const Room = ({ roomID }: CallProperties) => {
   const createSenderOffer = async (newSocket: SocketIOClient.Socket) => {
     try {
       let sdp = await sendPC.createOffer({
-        offerToReceiveAudio: false,
-        offerToReceiveVideo: false,
+        offerToReceiveAudio: true,
+        offerToReceiveVideo: true,
       });
       console.log("create sender offer success");
       await sendPC.setLocalDescription(new RTCSessionDescription(sdp));
-
       newSocket.emit("senderOffer", {
         sdp,
         senderSocketID: newSocket.id,
@@ -190,6 +208,12 @@ const Room = ({ roomID }: CallProperties) => {
     senderSocketID: string
   ) => {
     try {
+      console.log(pc);
+      pc.ondatachannel = (event) => {
+        console.log("On Data Channel Fired", event);
+        sendChannel.current = event.channel;
+        sendChannel.current.onmessage = handleReceiveMessage;
+      };
       let sdp = await pc.createOffer({
         offerToReceiveAudio: true,
         offerToReceiveVideo: true,
@@ -209,13 +233,19 @@ const Room = ({ roomID }: CallProperties) => {
     }
   };
 
+  const handleReceiveMessage = (event: MessageEvent<any>) => {
+    setMessages((messages) => [
+      ...messages,
+      { yourself: true, message: event.data },
+    ]);
+  };
+
   //callUser
   const createSenderPeerConnection = (
     newSocket: SocketIOClient.Socket,
     localStream: MediaStream
   ): RTCPeerConnection => {
     let pc = new RTCPeerConnection(pc_config);
-
     pc.onicecandidate = (e) => {
       if (e.candidate) {
         console.log("sender PC onicecandidate");
@@ -247,7 +277,6 @@ const Room = ({ roomID }: CallProperties) => {
     newSocket: SocketIOClient.Socket
   ): RTCPeerConnection => {
     let pc = new RTCPeerConnection(pc_config);
-
     // add pc to peerConnections object
     receivePCs = { ...receivePCs, [socketID]: pc };
 
@@ -282,13 +311,20 @@ const Room = ({ roomID }: CallProperties) => {
     return pc;
   };
 
+  const sendMessage = (message: string) => {
+    if (sendChannel.current) {
+      console.log(sendChannel.current);
+      sendChannel.current.send(message);
+      setMessages((messages) => [...messages, { yourself: false, message }]);
+    }
+  };
+
   return (
     <React.Fragment>
       <section className="Video_wrapper">
-        {console.log(users.length)}
         <div className="Video_Host_Container">
           {/* <div className="video-overlay "> The Attendee Name </div> */}
-          <video muted={mic} ref={localVideoRef} autoPlay></video>
+          <video muted={mic} ref={localVideoRef} autoPlay />
           {users.length > 0
             ? users.map((user, index) => {
                 return <Video key={index} stream={user.stream} muted={mic} />;
@@ -297,6 +333,10 @@ const Room = ({ roomID }: CallProperties) => {
         </div>
       </section>
       <ChatNavigation
+        sendMessage={sendMessage}
+        messages={messages}
+        roomId={roomID}
+        socket={newSocket}
         senders={senders}
         setHide={handleClose}
         Hide={Hide}

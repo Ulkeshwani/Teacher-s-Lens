@@ -1,11 +1,11 @@
 import fireabase from "../utils/firebase";
-const newDb = fireabase.ref("/users");
-class UserDatabaseService {
+const newDb = fireabase.ref("/school_colleges");
+class SchoolDatabaseService {
   getAll() {
     return newDb;
   }
-  create(user) {
-    return newDb.push(user);
+  create(sc) {
+    return newDb.push(sc);
   }
   update(key, value) {
     return newDb.child(key).update(value);
@@ -17,4 +17,4 @@ class UserDatabaseService {
     return newDb.remove();
   }
 }
-export default new UserDatabaseService();
+export default new SchoolDatabaseService();

@@ -1,5 +1,4 @@
 import * as React from "react";
-import { ChatNavigation } from "Components/ChatSidebar/Chat.component";
 import Room from "Components/Room/Room";
 
 import "./MeetPage.styles.css";

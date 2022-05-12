@@ -1,11 +1,13 @@
 import React from "react";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 import { useTheme } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Container, Box, Typography, Grid } from "@mui/material";
 import Header from "Components/Header/Header";
 import Navigator from "Components/Navigation2.0/Navigator";
 import { DrawerConstants } from "utils/Constants";
-import Announcement from "Components/Announcement/Announcement.component";
+import AnnouncementContent from "Components/Content/AnnouncementContent";
 
 const AnnouncementPage = () => {
   const theme = useTheme();
@@ -15,6 +17,30 @@ const AnnouncementPage = () => {
   const handleDrawerToggle = () => {
     setOpen(!open);
   };
+
+  const announcementSchema = Yup.object().shape({
+    title: Yup.string()
+      .matches(
+        /^\S+[A-Za-z0-9\s!@#$%^&)(+,._-]{2,100}$/,
+        "First name should be 3 to 50 character long and it should not start with blank space and not have special character and number."
+      )
+      .required("This field is required."),
+    description: Yup.string()
+      .matches(
+        /^\S+[A-Za-z0-9\s!@#$%^&)(+,._-]{2,100}$/,
+        "Address length should be 3 to 500 character long and it should not start with space."
+      )
+      .required("This field is required."),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      description: "",
+    },
+    validationSchema: announcementSchema,
+  });
+
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <Box
@@ -38,13 +64,7 @@ const AnnouncementPage = () => {
           component="main"
           sx={{ flex: 1, py: 6, px: 4, bgcolor: "#eaeff1" }}
         >
-          <Grid container spacing={3}>
-            {Array.from({ length: 6 }).map((_, index) => (
-              <Grid item xs={12} sm={6} md={4} lg={4} key={index}>
-                <Announcement />
-              </Grid>
-            ))}
-          </Grid>
+          <AnnouncementContent formikProps={formik} />
         </Box>
       </Box>
     </Box>

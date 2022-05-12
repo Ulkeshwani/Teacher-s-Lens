@@ -17,51 +17,82 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Model from "../Custom Model/Model.component";
-import OrganisationInput from "Pages/Administration/Organisation/OrganisationInput.component";
-import OrganisationDatabaseService from "../../services/organisation.services";
+import AnnouncementInput from "Pages/Announcement & Notification/AnnouncementInput.component";
+import AnnouncementDatabaseService from "../../services/announcement.services";
+import Announcement from "Components/Announcement/Announcement.component";
 
 const columns = [
   {
-    id: "name",
-    label: "Organisation Name",
+    id: "author",
+    label: "Author",
+    minWidth: 100,
+    align: "left",
+  },
+  {
+    id: "title",
+    label: "Announcement Title",
     minWidth: 170,
     align: "left",
   },
-  { id: "email", label: "Email", minWidth: 170 },
-  { id: "address", label: "Address", minWidth: 100 },
   {
-    id: "contactNumber",
-    label: "Contact Number",
+    id: "description",
+    label: "Announcement Description",
+    minWidth: 170,
+    align: "left",
+  },
+  {
+    id: "createdAt",
+    label: "Date",
     minWidth: 170,
     align: "center",
   },
 ];
 
-export default function OrganisationContent(props) {
+export default function AnnouncementContent(props) {
   const [open, setOpen] = React.useState(false);
-  const [organisationData, setOrganisationData] = React.useState([]);
+  const [show, setShow] = React.useState(false);
+  const [announcementData, setAnnouncementData] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(2);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const anchorOpen = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const handleCustomModel = () => {
     setOpen(!open);
   };
+
+  const handleAnnouncementShow = () => {
+    setShow(!show);
+  };
+
   const { formikProps } = props;
 
   const handleRefreshData = () => {
-    OrganisationDatabaseService.getAll().on("value", (snapshot) => {
+    AnnouncementDatabaseService.getAll().on("value", (snapshot) => {
       snapshot.forEach((childSnapshot) => {
         let data = {
           key: childSnapshot.key,
           ...childSnapshot.val(),
         };
-        setOrganisationData((prevState) => [...prevState, data]);
+        setAnnouncementData((prevState) => [...prevState, data]);
       });
     });
   };
 
   React.useEffect(() => {
     handleRefreshData();
+    console.log(announcementData);
   }, []);
 
   const handleChangePage = (event, newPage) => {
@@ -72,6 +103,7 @@ export default function OrganisationContent(props) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
   return (
     <Paper sx={{ maxWidth: 936, margin: "auto", overflow: "hidden" }}>
       <AppBar
@@ -100,9 +132,9 @@ export default function OrganisationContent(props) {
               <Model
                 open={open}
                 handleDialog={handleCustomModel}
-                title="Add Organisation"
+                title="Create Announcemnet"
               >
-                <OrganisationInput
+                <AnnouncementInput
                   props={formikProps}
                   handleDialog={handleCustomModel}
                 />
@@ -112,22 +144,18 @@ export default function OrganisationContent(props) {
                 sx={{ mr: 1 }}
                 onClick={handleCustomModel}
               >
-                Add Organisation
+                Create Announcement
               </Button>
               <Tooltip title="Reload">
-                <IconButton onClick={handleRefreshData}>
-                  <RefreshIcon
-                    color="inherit"
-                    sx={{ display: "block" }}
-                    onClick={handleRefreshData}
-                  />
+                <IconButton>
+                  <RefreshIcon color="inherit" sx={{ display: "block" }} />
                 </IconButton>
               </Tooltip>
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
-      {organisationData?.length > 0 ? (
+      {announcementData?.length > 0 ? (
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
@@ -142,10 +170,17 @@ export default function OrganisationContent(props) {
                       {column.label}
                     </TableCell>
                   ))}
+                  <TableCell
+                    key={"actions"}
+                    align={"right"}
+                    style={{ fontWeight: "bold" }}
+                  >
+                    {"Actions"}
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {organisationData
+                {announcementData
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => {
                     return (
@@ -153,7 +188,8 @@ export default function OrganisationContent(props) {
                         hover
                         role="checkbox"
                         tabIndex={-1}
-                        key={row.code}
+                        key={row.key}
+                        // onClick={handleAnnouncementShow}
                       >
                         {columns.map((column) => {
                           const value = row[column.id];
@@ -165,6 +201,34 @@ export default function OrganisationContent(props) {
                             </TableCell>
                           );
                         })}
+                        <TableCell key="actions" align="left">
+                          <IconButton
+                            id="basic-button"
+                            aria-controls={
+                              anchorOpen ? "basic-menu" : undefined
+                            }
+                            aria-haspopup="true"
+                            aria-expanded={anchorOpen ? "true" : undefined}
+                            onClick={handleClick}
+                          >
+                            <ExpandMoreIcon
+                              color="inherit"
+                              sx={{ display: "block" }}
+                            />
+                          </IconButton>
+                          <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={anchorOpen}
+                            onClose={handleClose}
+                            MenuListProps={{
+                              "aria-labelledby": "basic-button",
+                            }}
+                          >
+                            <MenuItem onClick={handleClose}>Edit</MenuItem>
+                            <MenuItem onClick={handleClose}>Delete</MenuItem>
+                          </Menu>
+                        </TableCell>
                       </TableRow>
                     );
                   })}
@@ -174,7 +238,7 @@ export default function OrganisationContent(props) {
           <TablePagination
             rowsPerPageOptions={[2, 5, 10, 25, 100]}
             component="div"
-            count={organisationData.length}
+            count={announcementData.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -183,9 +247,16 @@ export default function OrganisationContent(props) {
         </Paper>
       ) : (
         <Typography sx={{ my: 5, mx: 2 }} color="common.black" align="center">
-          No Organisations for this project yet
+          No Announcement Found
         </Typography>
       )}
+      <Model
+        open={show}
+        handleDialog={handleAnnouncementShow}
+        title="Announcement"
+      >
+        <Announcement />
+      </Model>
     </Paper>
   );
 }

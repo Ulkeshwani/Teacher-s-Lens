@@ -14,10 +14,10 @@ import {
   FormControl,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import OrganisationDatabaseService from "../../../services/organisation.services";
-import { Notification } from "../../../Components/Notification/Notification.component";
+import AnnouncementDatabaseService from "../../services/announcement.services";
+import { Notification } from "../../Components/Notification/Notification.component";
 
-const OrganisationInput = ({ props, handleDialog }) => {
+const AnnouncementInput = ({ props, handleDialog }) => {
   const {
     errors,
     touched,
@@ -43,52 +43,29 @@ const OrganisationInput = ({ props, handleDialog }) => {
 
   return (
     <FormikProvider value={props}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+      <Form autoComplete="off" noValidate>
         <Grid container spacing={3}>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <TextField
               fullWidth
               required
               placeholder="Name"
-              {...getFieldProps("name")}
-              error={Boolean(touched.name && errors.name)}
-              helperText={touched.name && errors.name}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              required
-              type="email"
-              placeholder="Email"
-              {...getFieldProps("email")}
-              error={Boolean(touched.email && errors.email)}
-              helperText={touched.email && errors.email}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              type="number"
-              placeholder="Mobile"
-              {...getFieldProps("contactNumber")}
-              onKeyPress={validateVolunteerRejx}
-              error={Boolean(touched.contactNumber && errors.contactNumber)}
-              helperText={touched.contactNumber && errors.contactNumber}
+              {...getFieldProps("title")}
+              error={Boolean(touched.title && errors.title)}
+              helperText={touched.title && errors.title}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               required
               multiline
-              rows={3}
+              rows={4}
               fullWidth
               type="text"
-              placeholder="Address"
-              {...getFieldProps("address")}
-              error={Boolean(touched.address && errors.address)}
-              helperText={touched.address && errors.address}
+              placeholder="Description"
+              {...getFieldProps("description")}
+              error={Boolean(touched.description && errors.description)}
+              helperText={touched.description && errors.description}
             />
           </Grid>
         </Grid>
@@ -108,11 +85,21 @@ const OrganisationInput = ({ props, handleDialog }) => {
           <LoadingButton
             variant="contained"
             onClick={() => {
-              OrganisationDatabaseService.create(props.values)
+              let data = {
+                title: props.values.title,
+                description: props.values.description,
+                author: "Admin",
+                createdAt: new Date().toDateString(),
+              };
+              AnnouncementDatabaseService.create(data)
                 .then((res) => {
-                  setAlertContent("Organisation created successfully");
+                  setAlertContent("Announcement Posted successfully");
                   setAlertType("success");
                   setAlert(true);
+                })
+                .then(() => {
+                  handleDialog();
+                  resetForm();
                 })
                 .catch((err) => {
                   console.log(err);
@@ -135,4 +122,4 @@ const OrganisationInput = ({ props, handleDialog }) => {
   );
 };
 
-export default OrganisationInput;
+export default AnnouncementInput;

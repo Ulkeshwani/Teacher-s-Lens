@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { FormikProvider, Form, Field } from "formik";
 import { makeStyles } from "@mui/styles";
 import { Icon } from "@iconify/react";
 // import FileUpload from 'react-mui-fileuploader';
+import UserDatabaseService from "../../../services/user.services";
+import { Notification } from "../../../Components/Notification/Notification.component";
 import {
   Grid,
   TextField,
@@ -29,6 +31,15 @@ const UserInput = ({
     getFieldProps,
     resetForm,
   } = props;
+
+  const [alert, setAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState("");
+  const [alertType, setAlertType] = useState("");
+
+  const handleAlert = () => {
+    setAlert(!alert);
+  };
+
   const validateVolunteerRejx = (event) => {
     if (!/[0-9]/.test(event.key)) {
       event.preventDefault();
@@ -37,7 +48,7 @@ const UserInput = ({
 
   return (
     <FormikProvider value={props}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+      <Form autoComplete="off" noValidate>
         <Grid container spacing={3}>
           <Grid item xs={6}>
             <TextField
@@ -185,7 +196,19 @@ const UserInput = ({
           </LoadingButton>
           <LoadingButton
             variant="contained"
-            onClick={handleSubmit}
+            onClick={() => {
+              UserDatabaseService.create(props.values)
+                .then((res) => {
+                  setAlertType("success");
+                  setAlertContent("User created successfully");
+                  setAlert(true);
+                  handleDialog();
+                  resetForm();
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            }}
             loading={isSubmitting}
             style={{ marginRight: 5 }}
           >
@@ -193,6 +216,12 @@ const UserInput = ({
           </LoadingButton>
         </Container>
       </Form>
+      <Notification
+        message={alertContent}
+        open={alert}
+        onClose={handleAlert}
+        severity={alertType}
+      />
     </FormikProvider>
   );
 };
