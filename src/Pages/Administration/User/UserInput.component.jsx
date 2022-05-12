@@ -162,7 +162,7 @@ const UserInput = ({
                 </MenuItem>
                 <MenuItem value="Teacher">Teacher</MenuItem>
                 <MenuItem value="Student">Student</MenuItem>
-                <MenuItem value="Monitor">Monitor</MenuItem>
+                <MenuItem value="Monitor">Admin</MenuItem>
               </Select>
               <FormHelperText sx={{ color: "red" }}>
                 {touched.role && errors.role}

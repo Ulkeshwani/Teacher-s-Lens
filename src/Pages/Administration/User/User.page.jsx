@@ -75,8 +75,6 @@ function User() {
     setOpen(!open);
   };
 
-  console.log(formik);
-
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <Box
