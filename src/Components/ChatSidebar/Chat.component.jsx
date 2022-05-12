@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Drawer } from "@mui/material";
+import { Drawer, TextField, Grid } from "@mui/material";
 import {
   MicOff,
   Mic,
@@ -13,10 +13,17 @@ import { getDate } from "Helpers/Helpers";
 import CustomButton from "Components/CustomButton/CustomButton.component";
 import "./Chat.styles.css";
 
-export const ChatNavigation: React.FC<Props> = (props) => {
+export const ChatNavigation = (props) => {
   return (
     <React.Fragment>
-      <ChatDrawer Hide={props.Hide} setHide={props.setHide} />
+      <ChatDrawer
+        Hide={props.Hide}
+        setHide={props.setHide}
+        socket={props.socket}
+        roomId={props.roomId}
+        sendMessage={props.sendMessage}
+        messages={props.messages}
+      />
       <VideoControlPanel
         Hide={props.Hide}
         setHide={props.setHide}
@@ -30,8 +37,8 @@ export const ChatNavigation: React.FC<Props> = (props) => {
   );
 };
 
-export const VideoControlPanel = (props: Props) => {
-  let localStream: MediaStream;
+export const VideoControlPanel = (props) => {
+  let localStream;
   const [time, setTime] = useState("");
   useEffect(() => {
     setTime(getDate());
@@ -93,7 +100,15 @@ export const VideoControlPanel = (props: Props) => {
   );
 };
 
-export const ChatDrawer: React.FC<MicroServicesProps> = ({ Hide, setHide }) => {
+export const ChatDrawer = ({
+  Hide,
+  setHide,
+  socket,
+  sendMessage,
+  messages,
+}) => {
+  const [text, setText] = useState("");
+  let roomID = window.location.pathname.split("/")[2];
   return (
     <Drawer
       anchor="right"
@@ -116,23 +131,55 @@ export const ChatDrawer: React.FC<MicroServicesProps> = ({ Hide, setHide }) => {
           Message Can Be Only Seen By People In the Call and Deleted When Call
           Ends
         </div>
-        <article className="inCallMessage_Container"></article>
+        <article
+          className="inCallMessage_Container"
+          style={{
+            height: "700px",
+            overflowY: "scroll",
+          }}
+        >
+          {messages.map((i) => {
+            let index = messages.indexOf(i);
+            return (
+              <div key={index} className="inCallMessage">
+                <p color="white">
+                  {i.message}
+                  <span color="white" className="time">
+                    {i.timestamp}
+                  </span>
+                </p>
+              </div>
+            );
+          })}
+        </article>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs>
+            <TextField
+              fullWidth
+              placeholder="Type a message"
+              InputProps={{
+                disableUnderline: true,
+                sx: { fontSize: "default", color: "white", marginTop: "10px" },
+              }}
+              value={text}
+              variant="standard"
+              onChange={(e) => setText(e.target.value)}
+            />
+          </Grid>
+          <Grid item>
+            <CustomButton
+              style={{ marginTop: "10px" }}
+              variant="contained"
+              onClick={() => {
+                sendMessage(text);
+                setText("");
+              }}
+            >
+              Send Message
+            </CustomButton>
+          </Grid>
+        </Grid>
       </section>
     </Drawer>
   );
 };
-
-interface MicroServicesProps {
-  Hide: boolean;
-  setHide: () => void;
-}
-interface IChatProps {
-  localStream?: MediaStream;
-  senders: React.MutableRefObject<RTCRtpSender[]>;
-  micMuted: boolean;
-  checkVideo: boolean;
-  setCheckVideo: () => void;
-  setMicMuted: () => void;
-}
-
-type Props = MicroServicesProps & IChatProps;

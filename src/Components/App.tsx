@@ -8,7 +8,6 @@ import MeetPage from "Pages/Meeting Page/MeetPage.pages";
 import Home from "Pages/Home Page/Home.component";
 import Conversation from "Pages/Create Conversation/Conversation.page";
 import AnnouncementPage from "Pages/Announcement & Notification/Announcement.page";
-import CreateRoom from "../Components/CreateRoom/CreateRoom";
 import theme from "utils/theme";
 import User from "Pages/Administration/User/User.page";
 import School from "Pages/Administration/School/School.page";
@@ -21,14 +20,14 @@ const App: React.FC = () => {
       <CssBaseline />
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={Landing} />
+          <Route path="/login" component={Landing} />
           <Route exact path="/Join-Us" component={SignupPage} />
           <Route
             exact
             path="/dashboard/create-conversation"
             component={Conversation}
           />
-          <Route exact path="/createRoom" component={CreateRoom} />
+          <Route exact path="/createRoom" />
           <Route exact path="/Meet/:roomID" component={MeetPage} />
           <Route exact path="/dashboard" component={Home} />
           <Route exact path="/dashboard/administration/user" component={User} />

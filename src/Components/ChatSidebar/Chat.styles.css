@@ -9,6 +9,7 @@
 
 .inCallMessage_Wrapper .Chat_header {
   font-size: 18px;
+  color: white;
 }
 
 .inCallMessage_Wrapper .inCallMessage_alert {
@@ -17,6 +18,24 @@
   border-radius: 5px;
   background-color: #f1f3f4;
   text-align: center;
+}
+
+.inCallMessage_Wrapper .inCallMessage {
+  margin-bottom: 10px;
+  padding: 10px 25px 10px 25px;
+  background-color: #cbc4c4;
+  text-align: left;
+  float: right;
+  width: 80%;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.inCallMessage_Wrapper .inCallMessage .time {
+  float: right;
+  font-style: italic;
+  font-weight: 600;
 }
 
 .Bottom_Navigation_Wrapper {
