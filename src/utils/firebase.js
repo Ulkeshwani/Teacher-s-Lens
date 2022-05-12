@@ -19,12 +19,12 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyACOenOHzqPZyofmUTWr7hUaORyd-S9Eqg",
-  authDomain: "webrtc-demo-3515b.firebaseapp.com",
-  projectId: "webrtc-demo-3515b",
-  storageBucket: "webrtc-demo-3515b.appspot.com",
-  messagingSenderId: "898583329560",
-  appId: "1:898583329560:web:799cb0841945ecd30bfc6d",
+  apiKey: "AIzaSyD0Eo24M9ze6_09_a8Gbx2OFC77Ld3jYgs",
+  authDomain: "fy-project-db.firebaseapp.com",
+  projectId: "fy-project-db",
+  storageBucket: "fy-project-db.appspot.com",
+  messagingSenderId: "377563527802",
+  appId: "1:377563527802:web:7914d4a93771403bb519c3",
 };
 
 const app = initializeApp(firebaseConfig);
