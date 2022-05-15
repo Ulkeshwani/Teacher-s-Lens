@@ -15,7 +15,7 @@ class MeetPage extends React.Component<UserCallProps> {
     return (
       <section className="Meet_Wrapper">
         <div className="Meet_callContainer">
-          <Room roomID={this.state.roomID} />
+          <Room />
         </div>
       </section>
     );
