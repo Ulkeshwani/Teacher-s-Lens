@@ -18,6 +18,8 @@ import {
   ListItemIcon,
   ListItemButton,
 } from "@mui/material";
+import { ADMINPATHS, STUDENTPATHS, TEACHERPATHS } from "../../utils/Constants";
+import { string } from "yup/lib/locale";
 
 // ----------------------------------------------------------------------
 
@@ -170,17 +172,32 @@ function NavItem({ item, active }) {
 
 NavSection.propTypes = {
   navConfig: PropTypes.array,
+  userRole: PropTypes.string,
 };
 
-export default function NavSection({ navConfig, ...other }) {
+export default function NavSection({ navConfig, userRole, ...other }) {
+  console.log(userRole);
   const { pathname } = useLocation();
   const match = (path) => {
     return matchPath(pathname, { path, exact: true }, path);
   };
+  const FilteredNav = navConfig.filter((item) => {
+    switch (userRole) {
+      case "Admin":
+        return ADMINPATHS.includes(item.id);
+      case "Student":
+        return STUDENTPATHS.includes(item.id);
+      case "Teacher":
+        return TEACHERPATHS.includes(item.id);
+      default:
+        return false;
+    }
+  });
+
   return (
     <Box {...other}>
       <List disablePadding>
-        {navConfig.map((item) => (
+        {FilteredNav.map((item) => (
           <NavItem key={item.title} item={item} active={match} />
         ))}
       </List>

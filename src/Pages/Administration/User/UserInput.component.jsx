@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { FormikProvider, Form, Field } from "formik";
 import { makeStyles } from "@mui/styles";
+import InputAdornment from "@mui/material/InputAdornment";
+import { registerWithEmailAndPassword } from "utils/firebase";
+import IconButton from "@mui/material/IconButton";
 import { Icon } from "@iconify/react";
 // import FileUpload from 'react-mui-fileuploader';
 import UserDatabaseService from "../../../services/user.services";
@@ -14,7 +17,10 @@ import {
   Select,
   InputLabel,
   FormControl,
+  OutlinedInput,
 } from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { LoadingButton } from "@mui/lab";
 
 const UserInput = ({
@@ -35,9 +41,18 @@ const UserInput = ({
   const [alert, setAlert] = useState(false);
   const [alertContent, setAlertContent] = useState("");
   const [alertType, setAlertType] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleAlert = () => {
     setAlert(!alert);
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
   };
 
   const validateVolunteerRejx = (event) => {
@@ -79,6 +94,64 @@ const UserInput = ({
               {...getFieldProps("email")}
               error={Boolean(touched.email && errors.email)}
               helperText={touched.email && errors.email}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              required
+              fullWidth
+              type="number"
+              placeholder="Mobile"
+              {...getFieldProps("contactNumber")}
+              onKeyPress={validateVolunteerRejx}
+              error={Boolean(touched.contactNumber && errors.contactNumber)}
+              helperText={touched.contactNumber && errors.contactNumber}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <OutlinedInput
+              fullWidth
+              required
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              {...getFieldProps("password")}
+              error={Boolean(touched.password && errors.password)}
+              helperText={touched.password && errors.password}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <OutlinedInput
+              fullWidth
+              required
+              type={showPassword ? "text" : "password"}
+              placeholder="Confirm Password"
+              {...getFieldProps("confirmPassword")}
+              error={Boolean(touched.confirmPassword && errors.confirmPassword)}
+              helperText={touched.confirmPassword && errors.confirmPassword}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
             />
           </Grid>
           {/* <Grid item xs={6}>
@@ -137,18 +210,6 @@ const UserInput = ({
               </FormHelperText>
             </FormControl>
           </Grid> */}
-          <Grid item xs={6}>
-            <TextField
-              required
-              fullWidth
-              type="number"
-              placeholder="Mobile"
-              {...getFieldProps("contactNumber")}
-              onKeyPress={validateVolunteerRejx}
-              error={Boolean(touched.contactNumber && errors.contactNumber)}
-              helperText={touched.contactNumber && errors.contactNumber}
-            />
-          </Grid>
           <Grid item xs={12}>
             <FormControl fullWidth>
               <InputLabel
@@ -173,7 +234,7 @@ const UserInput = ({
                 </MenuItem>
                 <MenuItem value="Teacher">Teacher</MenuItem>
                 <MenuItem value="Student">Student</MenuItem>
-                <MenuItem value="Monitor">Admin</MenuItem>
+                <MenuItem value="Admin">Admin</MenuItem>
               </Select>
               <FormHelperText sx={{ color: "red" }}>
                 {touched.role && errors.role}
@@ -197,11 +258,22 @@ const UserInput = ({
           <LoadingButton
             variant="contained"
             onClick={() => {
-              UserDatabaseService.create(props.values)
+              let data = {
+                active: true,
+                ...props.values,
+              };
+              UserDatabaseService.create(data)
                 .then((res) => {
-                  setAlertType("success");
-                  setAlertContent("User created successfully");
-                  setAlert(true);
+                  registerWithEmailAndPassword(
+                    props.values.firstName,
+                    props.values.email,
+                    props.values.password,
+                    props.values.role
+                  ).then((res) => {
+                    setAlertType("success");
+                    setAlertContent("User created successfully");
+                    setAlert(true);
+                  });
                   handleDialog();
                   resetForm();
                 })

@@ -23,6 +23,7 @@ import UserInput from "Pages/Administration/User/UserInput.component";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import UserDatabaseService from "../../services/user.services";
+import { SeverityPill } from "Components/Serverity-pills/ServerityPills.component";
 
 const columns = [
   {
@@ -195,6 +196,26 @@ export default function UserContent(props) {
                       >
                         {columns.map((column) => {
                           const value = row[column.id];
+                          if (column.id === "active") {
+                            return (
+                              <TableCell
+                                key={column.id}
+                                align={column.align}
+                                style={{
+                                  minWidth: column.minWidth,
+                                  fontWeight: "bold",
+                                  color: value ? "green" : "red",
+                                }}
+                              >
+                                <SeverityPill
+                                  color={value ? "success" : "warning"}
+                                >
+                                  {" "}
+                                  {value ? "Active" : "Inactive"}
+                                </SeverityPill>
+                              </TableCell>
+                            );
+                          }
                           return (
                             <>
                               <TableCell key={column.id} align={column.align}>

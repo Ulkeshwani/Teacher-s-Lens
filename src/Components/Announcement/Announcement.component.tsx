@@ -8,23 +8,16 @@ const Announcement: React.FC<AnnoucementProps> = (Props: AnnoucementProps) => {
   return (
     <div className="_Announcement_Container">
       <div className="_Inner_Container">
-        <Avatar className="_People_Avatar">U</Avatar>
-        <label className="Host">Announcement</label>
+        <Avatar className="_People_Avatar">{Props.author?.charAt(0)}</Avatar>
+        <label className="Host">{Props.title}</label>
 
         <label className="_current_Time">
           {" "}
-          <SeverityPill color={"warning"}>
-            {" "}
-            {new Date().toDateString()}
-          </SeverityPill>
+          <SeverityPill color={"warning"}>{Props.createdAt}</SeverityPill>
         </label>
       </div>
       <div className="_announcement_Desc_container">
-        <p className="_Desc">
-          a book or other written or printed work, regarded in terms of its
-          content rather than its physical form. a book or other written or
-          printed work, regarded in terms of its content rather than its
-        </p>
+        <p className="_Desc">{Props.description}</p>
       </div>
     </div>
   );

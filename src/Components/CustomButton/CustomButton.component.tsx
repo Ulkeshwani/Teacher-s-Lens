@@ -9,6 +9,7 @@ const CustomButton: React.FC<ButtonProps> = (props: ButtonProps) => {
       onClick={props.onClick}
       title={props.title}
       loading={props.loading}
+      variant={props.variant}
       {...props}
     >
       {props.children}

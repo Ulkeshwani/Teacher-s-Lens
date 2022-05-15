@@ -20,7 +20,7 @@ const App: React.FC = () => {
       <CssBaseline />
       <BrowserRouter>
         <Switch>
-          <Route path="/login" component={Landing} />
+          <Route exact path="/login" component={Landing} />
           <Route exact path="/Join-Us" component={SignupPage} />
           <Route
             exact

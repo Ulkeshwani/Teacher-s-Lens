@@ -17,6 +17,12 @@ interface ModelProps {
   title?: string;
   message?: string;
   handleDialog: () => void;
+  actions?: {
+    title: string;
+    onClick: () => void;
+    disabled?: boolean;
+  }[];
+  contentText?: string;
 }
 
 const Model = (props: ModelProps) => {
@@ -31,7 +37,9 @@ const Model = (props: ModelProps) => {
     >
       <DialogTitle color="primary">{props?.title}</DialogTitle>
       <DialogContent dividers={true}>
-        <DialogContentText>{props?.message}</DialogContentText>
+        <DialogContentText color="black">
+          <strong>{props?.message}</strong>
+        </DialogContentText>
         <Box sx={{ p: 1 }}>
           {!children ? (
             <Typography variant="body2">No Data Found</Typography>
@@ -40,6 +48,23 @@ const Model = (props: ModelProps) => {
           )}
         </Box>
       </DialogContent>
+      {props.actions ? (
+        <DialogActions>
+          {props.actions.map((action) => {
+            return (
+              <Button
+                key={action.title}
+                color="primary"
+                onClick={action.onClick}
+                variant="contained"
+                disabled={action.disabled}
+              >
+                {action.title}
+              </Button>
+            );
+          })}
+        </DialogActions>
+      ) : null}
     </Dialog>
   );
 };

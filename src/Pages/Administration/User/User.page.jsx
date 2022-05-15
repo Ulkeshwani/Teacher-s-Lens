@@ -57,6 +57,12 @@ function User() {
       .matches(/^[0-9]{10}$/, "Invalid contact number.")
       .nullable()
       .required("This field is required."),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters long.")
+      .required("This field is required."),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match.")
+      .required("This field is required."),
   });
 
   const formik = useFormik({
