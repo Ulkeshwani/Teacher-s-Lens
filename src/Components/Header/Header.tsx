@@ -9,6 +9,7 @@ import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import VideoCallIcon from "@mui/icons-material/VideoCall";
+import { logout } from "utils/firebase";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import Toolbar from "@mui/material/Toolbar";
@@ -40,7 +41,16 @@ export default function Header(props: HeaderProps) {
 
   const handleCreateRoom = () => {
     const id = uuidv1();
-    history.replace(`/Meet/${id}`);
+    history.replace(`/Meet/${id}`, {
+      state: {
+        roomID: id,
+      },
+    });
+  };
+
+  const handleLogout = () => {
+    logout();
+    history.replace("/login");
   };
 
   return (
@@ -48,7 +58,7 @@ export default function Header(props: HeaderProps) {
       <AppBar color="primary" position="sticky" elevation={0}>
         <Toolbar>
           <Grid container spacing={1} alignItems="center">
-            <Grid sx={{ display: { sm: "none", xs: "block" } }} item>
+            <Grid item sx={{ display: { sm: "none", xs: "block" } }}>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
@@ -75,7 +85,7 @@ export default function Header(props: HeaderProps) {
               <IconButton
                 color="inherit"
                 sx={{ p: 0.5 }}
-                onClick={() => history.replace("/login")}
+                onClick={handleLogout}
               >
                 <LogoutIcon color="inherit" sx={{ display: "block" }} />
                 <Typography variant="caption" color="inherit">

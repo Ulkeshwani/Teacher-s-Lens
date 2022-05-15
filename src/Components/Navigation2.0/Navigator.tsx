@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
+
 // material
 import { styled } from "@mui/material/styles";
 import {
@@ -22,8 +24,11 @@ import useResponsive from "../../Hooks/useResponsive";
 import NavSection from "../../Components/NavSection/NavSection";
 //
 import sidebarConfig from "./sidebarConfig";
+import { useHistory } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import safetyGoggles from "@iconify/icons-mdi/safety-goggles";
+import { auth, firestoreDB, logout } from "utils/firebase";
+import { query, collection, getDocs, where } from "firebase/firestore";
 
 // ----------------------------------------------------------------------
 
@@ -46,6 +51,15 @@ const AccountStyle = styled("div")(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
+type userProps = {
+  uid: string;
+  email: string;
+  name: string;
+  role: string;
+  active: boolean;
+  authProvider: string;
+};
+
 interface NavigatorProps {
   isOpenSidebar: boolean;
   onCloseSidebar: () => void;
@@ -56,13 +70,51 @@ export default function Navigator({
   onCloseSidebar,
 }: NavigatorProps) {
   const { pathname } = useLocation();
+  const history = useHistory();
+
+  const [user, loading, error] = useAuthState(auth);
+  const [name, setName] = useState("");
+  const [userData, setUserData] = useState<userProps>({
+    uid: "",
+    email: "",
+    name: "",
+    role: "",
+    active: false,
+    authProvider: "",
+  });
 
   const isDesktop = useResponsive("up", "sm");
+
+  const fetchUserName = async () => {
+    try {
+      const q = query(
+        collection(firestoreDB, "users"),
+        where("email", "==", user?.email)
+      );
+      const doc = await getDocs(q);
+      console.log(doc);
+      const data = doc.docs[0].data();
+      setUserData({
+        uid: data.uid,
+        email: data.email,
+        name: data.name,
+        role: data.role,
+        active: data.active,
+        authProvider: data.authProvider,
+      });
+      setName(data.name);
+    } catch (err) {
+      console.error(err);
+      alert("An error occured while fetching user data");
+    }
+  };
 
   useEffect(() => {
     if (isOpenSidebar) {
       onCloseSidebar();
     }
+    if (!user) return history.replace("/login");
+    fetchUserName();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
@@ -91,14 +143,14 @@ export default function Navigator({
                 {"Ulkesh Wani"}
               </Typography>
               <Typography variant="body2" sx={{ color: "text.primary" }}>
-                {"Admin"}
+                {userData?.role}
               </Typography>
             </Box>
           </AccountStyle>
         </Link>
       </Box>
 
-      <NavSection navConfig={sidebarConfig} />
+      <NavSection navConfig={sidebarConfig} userRole={userData.role} />
 
       <Box sx={{ flexGrow: 1 }} />
 

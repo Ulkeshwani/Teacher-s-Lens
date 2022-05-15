@@ -16,11 +16,13 @@ const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
 const sidebarConfig = [
   {
     title: "Dashboard",
+    id: "dashboard",
     path: "/dashboard",
     icon: getIcon(viewDashboard),
   },
   {
     title: "Administration",
+    id: "administration",
     path: "/dashboard/administration",
     icon: getIcon(accountWrench),
     children: [
@@ -43,21 +45,25 @@ const sidebarConfig = [
   },
   {
     title: "Create Conversation",
+    id: "createConversation",
     path: "/dashboard/create-conversation",
     icon: getIcon(videoPlus),
   },
   {
     title: "Join Conversation",
+    id: "joinConversation",
     path: "/dashboard/join-conversation",
     icon: getIcon(laptopAccount),
   },
   {
     title: "Announcements & Notifications",
+    id: "announcements",
     path: "/dashboard/announcements",
     icon: getIcon(squareRoundedBadgeOutline),
   },
   {
     title: "Profile",
+    id: "profile",
     path: "/dashboard/profile",
     icon: getIcon(accountIcon),
   },

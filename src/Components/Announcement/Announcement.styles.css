@@ -2,7 +2,8 @@
   margin: 20px;
   background-color: #17252a;
   color: #feffff;
-  width: 100%;
+  min-width: 200px;
+  max-width: 500px;
   max-height: 600px;
   border-radius: 8px;
 }
