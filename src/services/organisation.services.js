@@ -1,5 +1,5 @@
-import fireabase from "../utils/firebase";
-const newDb = fireabase.ref("/orgsanisations");
+import { realtimeDb } from "../utils/firebase";
+const newDb = realtimeDb.ref("/orgsanisations");
 class OrganisationDatabaseService {
   getAll() {
     return newDb;
