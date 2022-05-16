@@ -22,7 +22,7 @@ type MessageProps = {
   message: string;
 };
 
-const SOCKET_SERVER_URL = "http://localhost:8080";
+const SOCKET_SERVER_URL = "wss://teachers-lens-websocket-server.glitch.me";
 
 const Room = () => {
   const senders = useRef<Array<RTCRtpSender>>([]);
@@ -38,16 +38,12 @@ const Room = () => {
   const [users, setUsers] = useState<WebRTCUser[]>([]);
   const [user, loading, error] = useAuthState(auth);
   const location = useLocation<LocationProps>();
-  const history = useHistory();
   const [isUserReady, setIsUserReady] = useState(false);
   const [roomID, setRoomID] = useState(
     location.state?.state?.roomID
       ? location.state?.state?.roomID
       : window.location.pathname.split("/")[2]
   );
-  const [inValidRoom, setInValidRoom] = useState(false);
-
-  let newSocket = io.connect("ws://localhost:8080");
 
   const handleVideo = () => {
     setIsVideoOn(!isVideoOn);
@@ -79,7 +75,7 @@ const Room = () => {
   const getLocalStream = useCallback(async () => {
     try {
       const localStream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
+        audio: false,
         video: {
           width: { min: 640, ideal: 1280, max: 1920 },
           height: { min: 480, ideal: 720, max: 1080 },
@@ -90,7 +86,7 @@ const Room = () => {
       if (localVideoRef.current) localVideoRef.current.srcObject = localStream;
       if (!socketRef.current) return;
       socketRef.current.emit("join_room", {
-        room: "1234",
+        room: roomID,
         email: user?.email,
       });
     } catch (e) {
@@ -150,123 +146,114 @@ const Room = () => {
   );
 
   useEffect(() => {
-    if (user) {
-      socketRef.current = io.connect(SOCKET_SERVER_URL);
-      console.log(roomID);
-      getLocalStream();
+    socketRef.current = io(SOCKET_SERVER_URL, {});
+    console.log(roomID);
+    getLocalStream();
 
-      socketRef.current.on(
-        "all_users",
-        (allUsers: Array<{ id: string; email: string }>) => {
-          allUsers.forEach(async (user) => {
-            if (!localStreamRef.current) return;
-            const pc = createPeerConnection(user.id, user.email);
-            if (!(pc && socketRef.current)) return;
-            pcsRef.current = { ...pcsRef.current, [user.id]: pc };
-            try {
-              const localSdp = await pc.createOffer({
-                offerToReceiveAudio: true,
-                offerToReceiveVideo: true,
-              });
-              console.log("create offer success");
-              await pc.setLocalDescription(new RTCSessionDescription(localSdp));
-              socketRef.current.emit("offer", {
-                sdp: localSdp,
-                offerSendID: socketRef.current.id,
-                offerSendEmail: "offerSendSample@sample.com",
-                offerReceiveID: user.id,
-              });
-            } catch (e) {
-              console.error(e);
-            }
-          });
-        }
-      );
-
-      socketRef.current.on(
-        "getOffer",
-        async (data: {
-          sdp: RTCSessionDescription;
-          offerSendID: string;
-          offerSendEmail: string;
-        }) => {
-          const { sdp, offerSendID, offerSendEmail } = data;
-          console.log("get offer");
+    socketRef.current.on(
+      "all_users",
+      (allUsers: Array<{ id: string; email: string }>) => {
+        allUsers.forEach(async (user) => {
           if (!localStreamRef.current) return;
-          const pc = createPeerConnection(offerSendID, offerSendEmail);
+          const pc = createPeerConnection(user.id, user.email);
           if (!(pc && socketRef.current)) return;
-          pcsRef.current = { ...pcsRef.current, [offerSendID]: pc };
+          pcsRef.current = { ...pcsRef.current, [user.id]: pc };
           try {
-            await pc.setRemoteDescription(new RTCSessionDescription(sdp));
-            console.log("answer set remote description success");
-            const localSdp = await pc.createAnswer({
-              offerToReceiveVideo: true,
+            const localSdp = await pc.createOffer({
               offerToReceiveAudio: true,
+              offerToReceiveVideo: true,
             });
+            console.log("create offer success");
             await pc.setLocalDescription(new RTCSessionDescription(localSdp));
-            socketRef.current.emit("answer", {
+            socketRef.current.emit("offer", {
               sdp: localSdp,
-              answerSendID: socketRef.current.id,
-              answerReceiveID: offerSendID,
+              offerSendID: socketRef.current.id,
+              offerSendEmail: "offerSendSample@sample.com",
+              offerReceiveID: user.id,
             });
           } catch (e) {
             console.error(e);
           }
-        }
-      );
-
-      socketRef.current.on(
-        "getAnswer",
-        (data: { sdp: RTCSessionDescription; answerSendID: string }) => {
-          const { sdp, answerSendID } = data;
-          console.log("get answer");
-          const pc: RTCPeerConnection = pcsRef.current[answerSendID];
-          if (!pc) return;
-          pc.setRemoteDescription(new RTCSessionDescription(sdp));
-        }
-      );
-
-      socketRef.current.on(
-        "getCandidate",
-        async (data: {
-          candidate: RTCIceCandidateInit;
-          candidateSendID: string;
-        }) => {
-          console.log("get candidate");
-          const pc: RTCPeerConnection = pcsRef.current[data.candidateSendID];
-          if (!pc) return;
-          await pc.addIceCandidate(new RTCIceCandidate(data.candidate));
-          console.log("candidate add success");
-        }
-      );
-
-      socketRef.current.on("user_exit", (data: { id: string }) => {
-        if (!pcsRef.current[data.id]) return;
-        pcsRef.current[data.id].close();
-        delete pcsRef.current[data.id];
-        setUsers((oldUsers) => oldUsers.filter((user) => user.id !== data.id));
-      });
-
-      return () => {
-        if (socketRef.current) {
-          socketRef.current.disconnect();
-        }
-        users.forEach((user) => {
-          if (!pcsRef.current[user.id]) return;
-          pcsRef.current[user.id].close();
-          delete pcsRef.current[user.id];
         });
-        setIsUserReady(true);
-      };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    } else {
-      setInValidRoom(true);
-      history.replace("/login", {
-        state: {
-          inValidRoomID: roomID,
-        },
+      }
+    );
+
+    socketRef.current.on(
+      "getOffer",
+      async (data: {
+        sdp: RTCSessionDescription;
+        offerSendID: string;
+        offerSendEmail: string;
+      }) => {
+        const { sdp, offerSendID, offerSendEmail } = data;
+        console.log("get offer");
+        if (!localStreamRef.current) return;
+        const pc = createPeerConnection(offerSendID, offerSendEmail);
+        if (!(pc && socketRef.current)) return;
+        pcsRef.current = { ...pcsRef.current, [offerSendID]: pc };
+        try {
+          await pc.setRemoteDescription(new RTCSessionDescription(sdp));
+          console.log("answer set remote description success");
+          const localSdp = await pc.createAnswer({
+            offerToReceiveVideo: true,
+            offerToReceiveAudio: true,
+          });
+          await pc.setLocalDescription(new RTCSessionDescription(localSdp));
+          socketRef.current.emit("answer", {
+            sdp: localSdp,
+            answerSendID: socketRef.current.id,
+            answerReceiveID: offerSendID,
+          });
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    );
+
+    socketRef.current.on(
+      "getAnswer",
+      (data: { sdp: RTCSessionDescription; answerSendID: string }) => {
+        const { sdp, answerSendID } = data;
+        console.log("get answer");
+        const pc: RTCPeerConnection = pcsRef.current[answerSendID];
+        if (!pc) return;
+        pc.setRemoteDescription(new RTCSessionDescription(sdp));
+      }
+    );
+
+    socketRef.current.on(
+      "getCandidate",
+      async (data: {
+        candidate: RTCIceCandidateInit;
+        candidateSendID: string;
+      }) => {
+        console.log("get candidate");
+        const pc: RTCPeerConnection = pcsRef.current[data.candidateSendID];
+        if (!pc) return;
+        await pc.addIceCandidate(new RTCIceCandidate(data.candidate));
+        console.log("candidate add success");
+      }
+    );
+
+    socketRef.current.on("user_exit", (data: { id: string }) => {
+      if (!pcsRef.current[data.id]) return;
+      pcsRef.current[data.id].close();
+      delete pcsRef.current[data.id];
+      setUsers((oldUsers) => oldUsers.filter((user) => user.id !== data.id));
+    });
+
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+      }
+      users.forEach((user) => {
+        if (!pcsRef.current[user.id]) return;
+        pcsRef.current[user.id].close();
+        delete pcsRef.current[user.id];
       });
-    }
+      setIsUserReady(true);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [createPeerConnection, getLocalStream]);
 
   const sendMessage = (message: string) => {
@@ -279,10 +266,10 @@ const Room = () => {
 
   return (
     <React.Fragment>
-      {!isUserReady ? (
+      {isUserReady ? (
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={!isUserReady}
+          open={isUserReady}
           onClick={handleClose}
         >
           <CircularProgress color="inherit" />
@@ -290,7 +277,7 @@ const Room = () => {
       ) : null}
       <section className="Video_wrapper">
         <div className="Video_Host_Container">
-          {/* <div className="video-overlay "> The Attendee Name </div> */}
+          <div className="video-overlay "> The Attendee Name </div>
           <video muted={mic} ref={localVideoRef} autoPlay />
           {users.length > 0
             ? users.map((user, index) => {
@@ -303,7 +290,7 @@ const Room = () => {
         sendMessage={sendMessage}
         messages={messages}
         roomId={roomID}
-        socket={newSocket}
+        socket={socketRef.current}
         senders={senders}
         setHide={handleClose}
         Hide={Hide}
